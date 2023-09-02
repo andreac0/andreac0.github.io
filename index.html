@@ -28,8 +28,8 @@
 				<section class="content">
 				<label for="cars"><b>Examples:</b></label>
 
-				<select name="examples" id="examples">
-				  	<option value="PR">Peer Review Conficts</option>
+				<select name="examples" id="examples" py-click="get_data()">
+				  	<option value="PR">Peer Reviews Conflict of Interest</option>
 					<option value="TR">Trading via Smart Contract</option>
 			   </select>
 			<br/><br/>
@@ -51,13 +51,12 @@
 										<py-script>
 											import pandas as pd
 											from pyodide.http import open_url
-											url = "https://raw.githubusercontent.com/andreac0/nl_framework/main/data/chase.json"
+											url = "https://raw.githubusercontent.com/andreac0/nl_framework/main/data/"+Element("path").value+"/chase.json"
 											df = pd.read_json(open_url(url))[['name','provenance']]
 											df = df[df['provenance'] == "[]"]['name'].reset_index(drop = True).to_string(header = False, index = False)
 											Element('edb_facts').write(df)
-										  </py-script>
+										</py-script>
 								</div>
-								<!-- <textarea readonly id="dataset" minlength="10" maxlength="1500" rows="8" cols="70"></textarea> -->
 						</div>
 
 						<div class="fact" >
@@ -66,21 +65,20 @@
 								 <py-script>
 								   import pandas as pd
 								   from pyodide.http import open_url
-								   url = "https://raw.githubusercontent.com/andreac0/nl_framework/main/data/chase.json"
+								   url = "https://raw.githubusercontent.com/andreac0/nl_framework/main/data/"+Element("path").value+"/chase.json"
 								   df = pd.read_json(open_url(url))[['name']]
 								   df = df[df['name'].str.startswith("excludeReviewer(")].reset_index(drop = True).to_string(header = False, index = False)
 								   Element('idb_facts').write(df)
 
 								 </py-script>
 								
-								<!-- <textarea readonly id="fact" minlength="10" maxlength="1500" rows="8" cols="50"></textarea> -->
 						</div>
 				</div>
 			</section>
-
+			<label for="cars"><b>Choose fact to explain:</b></label>
 			<select id="dropdownIDB">
-				<option>ExcludeReviewer(Isabel,561)</option>
-				<option>ExcludeReviewer(Carlo,561)</option>
+				<option>excludeReviewer(Isabel,561)</option>
+				<option>excludeReviewer(Carlo,561)</option>
 			</select>
 
            <hr/>
@@ -95,6 +93,7 @@
 			</section>
 			<hr/>
 		</div>
+		<div id="path"></div>
 
 	</body>
 </html>
@@ -152,25 +151,21 @@
 		var selectedVal = $(this).find(':selected').val();
 		// var selectedText = $(this).find(':selected').text();
     if (selectedVal == "PR"){
-          var dataset = "Person(Isabel, MilanUniversity, 2011)\nPerson(Carlo, MilanUniversity, 2011)\nhasPublication(Isabel, Beautiful LLMs)\nhasPublication(Carlo, Beautiful LLMs)\nSubmission(Carlo, 561)";
-          var fact = "ExcludeReviewer( Isabel, 561)"
           var desc = "<b>Description</b>: The program detects potential conflicts of interest (CoI) according to general peer review rules. Multiple conditions might determine a CoI, and we ranked them according to the severity of the CoI, which can be further investigated by looking at the generated NL report to decide whether the exclusion really applies. ";
-		  $("#dataset").val(dataset);
-          $("#fact").val(fact);
-          $("#desc").html(desc);
-		  $("#query").html("<b>Query</b>$$?-ExcludeReviewer(y,s)$$");
+		  var path = "conflicts"
+		  $("#path").val(path)
+		  $("#desc").html(desc);
+		  $("#query").html("<b>Query of interest:</b>$$?-ExcludeReviewer(y,s)$$");
 		  $("#logicProgram").html("$$Researcher(x,z,d),Researcher(y,z,d), x \\neq y \\to Conflict(x,y)$$ \n $$hasPublication(x,p),hasPublication(y,p), x \\neq y  \\to Conflict(x,y)$$ \n $$Conflict(x,y), Submission(x,s) \\to ExcludeReviewer(y,s)$$");
 		  MathJax.Hub.Queue(["Typeset", MathJax.Hub, "logicProgram"]);
 		  MathJax.Hub.Queue(["Typeset", MathJax.Hub, "query"]);
     }
     else if(selectedVal == "TR"){
-         var dataset = "";
-         var fact = "";
-         var desc = "<b>Description</b>: Logic programs can be to define Smart Contracts which run on a blockchain. This program describes a simple version of trading of an asset via a Smart Contract, where a trader can send Open position orders, Close position orders and with market information evolving (Price)";
-        $("#dataset").val(dataset);
-        $("#fact").val(fact);
-        $("#desc").html(desc);
-		$("#query").html("<b>Query</b>$$?-Return(x,pl)$$");
+        var desc = "<b>Description</b>: Logic programs can be to define Smart Contracts which run on a blockchain. This program describes a simple version of trading of an asset via a Smart Contract, where a trader can send Open position orders, Close position orders and with market information evolving (Price)";
+		var path = "trading"
+		$("#path").val(path)
+		$("#desc").html(desc);
+		$("#query").html("<b>Query of interest:</b>$$?-Return(x,pl)$$");
 		$("#logicProgram").html("$$\\textit{Open}(x,y,t_1), \\neg \\textit{MarketClosed}(t_1) \\to \\textit{Accepted}(x,y,t_1)$$ \n  $$\\textit{Accepted}(x,y,t_1), \\textit{Price}(p_1,t_1), k=y*p_1  \\to \\textit{Position}(x,y,k,t_1)$$ \n $$\\textit{Close}(x,t_2), \\textit{Price}(p_2,t_2), \\textit{Position}(x,y,k,t_1), t_2>t_1, pl=y*p_2-k \\to \\textit{Return(x,pl)}$$");
 		MathJax.Hub.Queue(["Typeset", MathJax.Hub, "logicProgram"]);
 		MathJax.Hub.Queue(["Typeset", MathJax.Hub, "query"]);
@@ -178,13 +173,11 @@
    });
 </script>
 <script type="text/javascript">
-	  	var dataset = "Person(Isabel, MilanUniversity, 2011)\nPerson(Carlo, MilanUniversity, 2011)\nhasPublication(Isabel, Beautiful LLMs)\nhasPublication(Carlo, Beautiful LLMs)\nSubmission(Carlo, 561)";
-		var fact = "ExcludeReviewer( Isabel, 561)"
 		var desc = "<b>Description</b>: The program detects potential conflicts of interest (CoI) according to general peer review rules. Multiple conditions might determine a CoI, and we ranked them according to the severity of the CoI, which can be further investigated by looking at the generated NL report to decide whether the exclusion really applies. ";
-		$("#dataset").val(dataset);
-		$("#fact").val(fact);
+		var path = "conflicts"
+		$("#path").val(path)
 		$("#desc").html(desc);
-		$("#query")("<b>Query</b>$$?-ExcludeReviewer(y,s)$$");
+		$("#query")("<b>Query of interest:</b>$$?-ExcludeReviewer(y,s)$$");
 		$("#logicProgram").html("$$Researcher(x,z,d),Researcher(y,z,d), x \\neq y \\to Conflict(x,y)$$ \n $$hasPublication(x,p),hasPublication(y,p), x \\neq y  \\to Conflict(x,y)$$ \n $$Conflict(x,y), Submission(x,s) \\to ExcludeReviewer(y,s)$$");
 		MathJax.Hub.Queue(["Typeset", MathJax.Hub, "logicProgram"]);
 		MathJax.Hub.Queue(["Typeset", MathJax.Hub, "query"]);
@@ -194,12 +187,32 @@
 
 <py-script>
 from js import document
+import pandas as pd
+from pyodide.http import open_url
 from datetime import datetime as dt
 from pyodide.ffi.wrappers import add_event_listener
 
+
+def get_data(*args, **kws):
+	url = "https://raw.githubusercontent.com/andreac0/nl_framework/main/data/"+Element("path").value+"/chase.json"
+	df = pd.read_json(open_url(url))[['name','provenance']]
+	df2 = df[df['provenance'] == "[]"]['name'].reset_index(drop = True).to_string(header = False, index = False)
+	Element('edb_facts').write(df2)
+	if "conflicts" in Element("path").value:
+		df = df[df['name'].str.startswith('excludeReviewer(')][['name']]
+		df_write = df.reset_index(drop = True).to_string(header = False, index = False)
+		Element('idb_facts').write(df_write)
+	elif "trading" in Element("path").value:
+		df = df[df['name'].str.startswith('profit')][['name']]
+		df_write = df.reset_index(drop = True).to_string(header = False, index = False)
+		Element('idb_facts').write(df_write)
+	new_options = ""
+	for i in range(len(df)):
+		new_options = new_options + "<option>"+df.iloc[i]['name']+"</option>"
+	Element("dropdownIDB").element.innerHTML = new_options
+
 def speak(*args, **kws):
-	idb_fact = Element("fact")
-	Element('result').write("Carlo and Isabel have a conflict of interest due to their prior employment at Milan University. As a result, Isabel cannot review the article 561 that was submitted by Carlo")
+	Element('result').write('Explanation')
 
 def entailment():
 	fact =  Element('fact').element.value
