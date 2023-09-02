@@ -1,0 +1,2 @@
+Open folder in terminal
+python -m http.server

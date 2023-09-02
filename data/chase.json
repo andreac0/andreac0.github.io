@@ -1,0 +1,25 @@
+[{"name":"person(Isabel,MilanUniversity,2011)","pattern":"person(1,2,3)","provenance":"[]","rule":null,"number":["1"]}
+,{"name":"conflictInterest031756948(Isabel,MilanUniversity,2011)","pattern":"conflictInterest031756948(1,2,3)","provenance":"[person(Isabel,MilanUniversity,2011)]","rule":null,"number":["1"]}
+,{"name":"conflictInterest131756948(Isabel,MilanUniversity,2011)","pattern":"conflictInterest131756948(1,2,3)","provenance":"[person(Isabel,MilanUniversity,2011)]","rule":null,"number":["2"]}
+,{"name":"conflictInterest(Isabel,Isabel)","pattern":"conflictInterest(1,1)","provenance":"[conflictInterest031756948(Isabel,MilanUniversity,2011), conflictInterest131756948(Isabel,MilanUniversity,2011)]","rule":"conflictInterest(X,Y) :- person(X,Z,D1), person(Y,Z,D2), D1=D2.","number":["1.1","2.1"]}
+,{"name":"excludeReviewer01487134365(Isabel,Isabel)","pattern":"excludeReviewer01487134365(1,1)","provenance":"[conflictInterest(Isabel,Isabel)]","rule":null,"number":["1.1","2.1"]}
+,{"name":"submission(Carlo,561)","pattern":"submission(1,2)","provenance":"[]","rule":null,"number":["4"]}
+,{"name":"excludeReviewer11487134365(Carlo,561)","pattern":"excludeReviewer11487134365(1,2)","provenance":"[submission(Carlo,561)]","rule":null,"number":["4"]}
+,{"name":"person(Carlo,MilanUniversity,2011)","pattern":"person(1,2,3)","provenance":"[]","rule":null,"number":["6"]}
+,{"name":"conflictInterest131756948(Carlo,MilanUniversity,2011)","pattern":"conflictInterest131756948(1,2,3)","provenance":"[person(Carlo,MilanUniversity,2011)]","rule":null,"number":["6"]}
+,{"name":"conflictInterest(Isabel,Carlo)","pattern":"conflictInterest(1,2)","provenance":"[conflictInterest031756948(Isabel,MilanUniversity,2011), conflictInterest131756948(Carlo,MilanUniversity,2011)]","rule":"conflictInterest(X,Y) :- person(X,Z,D1), person(Y,Z,D2), D1=D2.","number":["2.2","6.1"]}
+,{"name":"excludeReviewer01487134365(Isabel,Carlo)","pattern":"excludeReviewer01487134365(1,2)","provenance":"[conflictInterest(Isabel,Carlo)]","rule":null,"number":["2.2","6.1"]}
+,{"name":"conflictInterest031756948(Carlo,MilanUniversity,2011)","pattern":"conflictInterest031756948(1,2,3)","provenance":"[person(Carlo,MilanUniversity,2011)]","rule":null,"number":["7"]}
+,{"name":"conflictInterest(Carlo,Isabel)","pattern":"conflictInterest(1,2)","provenance":"[conflictInterest031756948(Carlo,MilanUniversity,2011), conflictInterest131756948(Isabel,MilanUniversity,2011)]","rule":"conflictInterest(X,Y) :- person(X,Z,D1), person(Y,Z,D2), D1=D2.","number":["3.2","7.1"]}
+,{"name":"excludeReviewer01487134365(Carlo,Isabel)","pattern":"excludeReviewer01487134365(1,2)","provenance":"[conflictInterest(Carlo,Isabel)]","rule":null,"number":["3.2","7.1"]}
+,{"name":"excludeReviewer(Isabel,561)","pattern":"excludeReviewer(1,2)","provenance":"[excludeReviewer01487134365(Carlo,Isabel), excludeReviewer11487134365(Carlo,561)]","rule":"excludeReviewer(Y,ID) :- conflictInterest(X,Y), submission(X,ID).","number":["3.2.1","4.1","7.1.1"]}
+,{"name":"conflictInterest(Carlo,Carlo)","pattern":"conflictInterest(1,1)","provenance":"[conflictInterest031756948(Carlo,MilanUniversity,2011), conflictInterest131756948(Carlo,MilanUniversity,2011)]","rule":"conflictInterest(X,Y) :- person(X,Z,D1), person(Y,Z,D2), D1=D2.","number":["7.2","8.2"]}
+,{"name":"excludeReviewer01487134365(Carlo,Carlo)","pattern":"excludeReviewer01487134365(1,1)","provenance":"[conflictInterest(Carlo,Carlo)]","rule":null,"number":["7.2","8.2"]}
+,{"name":"excludeReviewer(Carlo,561)","pattern":"excludeReviewer(1,2)","provenance":"[excludeReviewer01487134365(Carlo,Carlo), excludeReviewer11487134365(Carlo,561)]","rule":"excludeReviewer(Y,ID) :- conflictInterest(X,Y), submission(X,ID).","number":["5.2","7.2.1","8.2.1"]}
+,{"name":"hasPublication(Isabel,Beautiful_LLMs)","pattern":"hasPublication(1,2)","provenance":"[]","rule":null,"number":["9"]}
+,{"name":"conflictInterest01596519462(Isabel,Beautiful_LLMs)","pattern":"conflictInterest01596519462(1,2)","provenance":"[hasPublication(Isabel,Beautiful_LLMs)]","rule":null,"number":["9"]}
+,{"name":"conflictInterest11596519462(Isabel,Beautiful_LLMs)","pattern":"conflictInterest11596519462(1,2)","provenance":"[hasPublication(Isabel,Beautiful_LLMs)]","rule":null,"number":["10"]}
+,{"name":"hasPublication(Carlo,Beautiful_LLMs)","pattern":"hasPublication(1,2)","provenance":"[]","rule":null,"number":["12"]}
+,{"name":"conflictInterest11596519462(Carlo,Beautiful_LLMs)","pattern":"conflictInterest11596519462(1,2)","provenance":"[hasPublication(Carlo,Beautiful_LLMs)]","rule":null,"number":["12"]}
+,{"name":"conflictInterest01596519462(Carlo,Beautiful_LLMs)","pattern":"conflictInterest01596519462(1,2)","provenance":"[hasPublication(Carlo,Beautiful_LLMs)]","rule":null,"number":["13"]}
+]
