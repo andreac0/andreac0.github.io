@@ -1,0 +1,20 @@
+[{"name":"researcher(Isabel,MilanUniversity,2011)","pattern":"researcher(1,2,3)","provenance":"[]","rule":null,"number":["1"]}
+,{"name":"conflictInterest0713427748(Isabel,MilanUniversity,2011)","pattern":"conflictInterest0713427748(1,2,3)","provenance":"[researcher(Isabel,MilanUniversity,2011)]","rule":null,"number":["1"]}
+,{"name":"conflictInterest1713427748(Isabel,MilanUniversity,2011)","pattern":"conflictInterest1713427748(1,2,3)","provenance":"[researcher(Isabel,MilanUniversity,2011)]","rule":null,"number":["2"]}
+,{"name":"researcher(Carlo,MilanUniversity,2011)","pattern":"researcher(1,2,3)","provenance":"[]","rule":null,"number":["4"]}
+,{"name":"conflictInterest1713427748(Carlo,MilanUniversity,2011)","pattern":"conflictInterest1713427748(1,2,3)","provenance":"[researcher(Carlo,MilanUniversity,2011)]","rule":null,"number":["4"]}
+,{"name":"conflictInterest(Isabel,Carlo)","pattern":"conflictInterest(1,2)","provenance":"[conflictInterest0713427748(Isabel,MilanUniversity,2011), conflictInterest1713427748(Carlo,MilanUniversity,2011)]","rule":"conflictInterest(X,Y) :- researcher(X,Z,D1), researcher(Y,Z,D1), X<>Y.","number":["1.1","4.1"]}
+,{"name":"excludeReviewer0666212854(Isabel,Carlo)","pattern":"excludeReviewer0666212854(1,2)","provenance":"[conflictInterest(Isabel,Carlo)]","rule":null,"number":["1.1","4.1"]}
+,{"name":"submission(Carlo,561)","pattern":"submission(1,2)","provenance":"[]","rule":null,"number":["7"]}
+,{"name":"excludeReviewer1666212854(Carlo,561)","pattern":"excludeReviewer1666212854(1,2)","provenance":"[submission(Carlo,561)]","rule":null,"number":["7"]}
+,{"name":"conflictInterest0713427748(Carlo,MilanUniversity,2011)","pattern":"conflictInterest0713427748(1,2,3)","provenance":"[researcher(Carlo,MilanUniversity,2011)]","rule":null,"number":["5"]}
+,{"name":"conflictInterest(Carlo,Isabel)","pattern":"conflictInterest(1,2)","provenance":"[conflictInterest0713427748(Carlo,MilanUniversity,2011), conflictInterest1713427748(Isabel,MilanUniversity,2011)]","rule":"conflictInterest(X,Y) :- researcher(X,Z,D1), researcher(Y,Z,D1), X<>Y.","number":["2.1","5.1"]}
+,{"name":"excludeReviewer0666212854(Carlo,Isabel)","pattern":"excludeReviewer0666212854(1,2)","provenance":"[conflictInterest(Carlo,Isabel)]","rule":null,"number":["2.1","5.1"]}
+,{"name":"excludeReviewer(Isabel,561)","pattern":"excludeReviewer(1,2)","provenance":"[excludeReviewer0666212854(Carlo,Isabel), excludeReviewer1666212854(Carlo,561)]","rule":"excludeReviewer(Y,ID) :- conflictInterest(X,Y), submission(X,ID).","number":["2.1.1","5.1.1","7.1"]}
+,{"name":"hasPublication(Isabel,Beautiful_LLMs)","pattern":"hasPublication(1,2)","provenance":"[]","rule":null,"number":["9"]}
+,{"name":"conflictInterest0536426394(Isabel,Beautiful_LLMs)","pattern":"conflictInterest0536426394(1,2)","provenance":"[hasPublication(Isabel,Beautiful_LLMs)]","rule":null,"number":["9"]}
+,{"name":"conflictInterest1536426394(Isabel,Beautiful_LLMs)","pattern":"conflictInterest1536426394(1,2)","provenance":"[hasPublication(Isabel,Beautiful_LLMs)]","rule":null,"number":["10"]}
+,{"name":"hasPublication(Carlo,Beautiful_LLMs)","pattern":"hasPublication(1,2)","provenance":"[]","rule":null,"number":["12"]}
+,{"name":"conflictInterest1536426394(Carlo,Beautiful_LLMs)","pattern":"conflictInterest1536426394(1,2)","provenance":"[hasPublication(Carlo,Beautiful_LLMs)]","rule":null,"number":["12"]}
+,{"name":"conflictInterest0536426394(Carlo,Beautiful_LLMs)","pattern":"conflictInterest0536426394(1,2)","provenance":"[hasPublication(Carlo,Beautiful_LLMs)]","rule":null,"number":["13"]}
+]

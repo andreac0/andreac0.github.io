@@ -16,7 +16,16 @@
     <py-config>
        packages =["./static/littleutils-0.2.2-py3-none-any.whl", "pandas"]
        [[fetch]]
-       files=["./main.py"]
+       files=["./pycode/AggregateVerbalizer.py",
+	   		"./pycode/TemplatesGenerator.py",
+			"./pycode/ProgramVerbalizer.py",
+			"./pycode/utils.py",
+	   		"./data/conflicts/chase.json",
+			"./data/trading/chase.json",
+			"./data/conflicts/deterministic_verbalization.json",
+			"./data/trading/deterministic_verbalization.json",
+			"./data/conflicts/templates.json",
+			"./data/trading/templates.json"]
     </py-config>
 	</head>
 	<body>
@@ -26,11 +35,12 @@
 			</header>
 
 				<section class="content">
-				<label for="cars"><b>Examples:</b></label>
+				<label for="cars"><b>Choose program:</b></label>
 
 				<select name="examples" id="examples" py-click="get_data()">
-				  	<option value="PR">Peer Reviews Conflict of Interest</option>
-					<option value="TR">Trading via Smart Contract</option>
+					<option value ="NA"></option>
+				  	<option value= "PR">Peer Reviews Conflict of Interest</option>
+					<option value= "TR">Trading via Smart Contract</option>
 			   </select>
 			<br/><br/>
 			   <div id="logicProgram" style="font-size: 70%"></div>
@@ -48,41 +58,22 @@
 						<div class="dataset">
 								<h3>EDB Knowledge:</h3>
 									<div id="edb_facts" style="overflow-y: scroll; height:150px;width:300px;">
-										<py-script>
-											import pandas as pd
-											from pyodide.http import open_url
-											url = "https://raw.githubusercontent.com/andreac0/nl_framework/main/data/"+Element("path").value+"/chase.json"
-											df = pd.read_json(open_url(url))[['name','provenance']]
-											df = df[df['provenance'] == "[]"]['name'].reset_index(drop = True).to_string(header = False, index = False)
-											Element('edb_facts').write(df)
-										</py-script>
 								</div>
 						</div>
 
 						<div class="fact" >
 								 <h3>Query Results:</h3>
 								 <div id="idb_facts" style="overflow-y: scroll; height:150px;width:300px;"></div>
-								 <py-script>
-								   import pandas as pd
-								   from pyodide.http import open_url
-								   url = "https://raw.githubusercontent.com/andreac0/nl_framework/main/data/"+Element("path").value+"/chase.json"
-								   df = pd.read_json(open_url(url))[['name']]
-								   df = df[df['name'].str.startswith("excludeReviewer(")].reset_index(drop = True).to_string(header = False, index = False)
-								   Element('idb_facts').write(df)
-
-								 </py-script>
 								
 						</div>
 				</div>
 			</section>
 			<label for="cars"><b>Choose fact to explain:</b></label>
 			<select id="dropdownIDB">
-				<option>excludeReviewer(Isabel,561)</option>
-				<option>excludeReviewer(Carlo,561)</option>
 			</select>
 
            <hr/>
-			<button py-click="speak()" id="button" class="py-button">
+			<button py-click="explanation_query()" id="button" class="py-button">
 				Run Explanation Query $Q_e$
 			</button>
 			<section class="content">
@@ -165,22 +156,21 @@
 		var path = "trading"
 		$("#path").val(path)
 		$("#desc").html(desc);
-		$("#query").html("<b>Query of interest:</b>$$?-Return(x,pl)$$");
-		$("#logicProgram").html("$$\\textit{Open}(x,y,t_1), \\neg \\textit{MarketClosed}(t_1) \\to \\textit{Accepted}(x,y,t_1)$$ \n  $$\\textit{Accepted}(x,y,t_1), \\textit{Price}(p_1,t_1), k=y*p_1  \\to \\textit{Position}(x,y,k,t_1)$$ \n $$\\textit{Close}(x,t_2), \\textit{Price}(p_2,t_2), \\textit{Position}(x,y,k,t_1), t_2>t_1, pl=y*p_2-k \\to \\textit{Return(x,pl)}$$");
+		$("#query").html("<b>Query of interest:</b>$$?-Returns(x,pl)$$");
+		$("#logicProgram").html("$$\\textit{Open}(x,y,t_1), \\neg \\textit{MarketClosed}(t_1) \\to \\textit{Accepted}(x,y,t_1)$$ \n  $$\\textit{Accepted}(x,y,t_1), \\textit{Price}(p_1,t_1), k=y*p_1  \\to \\textit{Position}(x,y,k,t_1)$$ \n $$\\textit{Close}(x,t_2), \\textit{Price}(p_2,t_2), \\textit{Position}(x,y,k,t_1), t_2>t_1, pl=y*p_2-k \\to \\textit{Returns(x,pl)}$$");
 		MathJax.Hub.Queue(["Typeset", MathJax.Hub, "logicProgram"]);
 		MathJax.Hub.Queue(["Typeset", MathJax.Hub, "query"]);
     }
    });
 </script>
 <script type="text/javascript">
-		var desc = "<b>Description</b>: The program detects potential conflicts of interest (CoI) according to general peer review rules. Multiple conditions might determine a CoI, and we ranked them according to the severity of the CoI, which can be further investigated by looking at the generated NL report to decide whether the exclusion really applies. ";
+		var desc = "";
 		var path = "conflicts"
 		$("#path").val(path)
 		$("#desc").html(desc);
-		$("#query")("<b>Query of interest:</b>$$?-ExcludeReviewer(y,s)$$");
-		$("#logicProgram").html("$$Researcher(x,z,d),Researcher(y,z,d), x \\neq y \\to Conflict(x,y)$$ \n $$hasPublication(x,p),hasPublication(y,p), x \\neq y  \\to Conflict(x,y)$$ \n $$Conflict(x,y), Submission(x,s) \\to ExcludeReviewer(y,s)$$");
-		MathJax.Hub.Queue(["Typeset", MathJax.Hub, "logicProgram"]);
-		MathJax.Hub.Queue(["Typeset", MathJax.Hub, "query"]);
+		$("#query")("");
+		$("#logicProgram").html("");
+
 
 
 </script>
@@ -188,14 +178,17 @@
 <py-script>
 from js import document
 import pandas as pd
+import json
 from pyodide.http import open_url
 from datetime import datetime as dt
 from pyodide.ffi.wrappers import add_event_listener
-
+from pycode import AggregateVerbalizer
+from pycode import ProgramVerbalizer
+from pycode import TemplatesGenerator
+from pycode.utils import *
 
 def get_data(*args, **kws):
-	url = "https://raw.githubusercontent.com/andreac0/nl_framework/main/data/"+Element("path").value+"/chase.json"
-	df = pd.read_json(open_url(url))[['name','provenance']]
+	df = pd.read_json("data/"+Element("path").value+"/chase.json")[['name','provenance']]
 	df2 = df[df['provenance'] == "[]"]['name'].reset_index(drop = True).to_string(header = False, index = False)
 	Element('edb_facts').write(df2)
 	if "conflicts" in Element("path").value:
@@ -203,7 +196,7 @@ def get_data(*args, **kws):
 		df_write = df.reset_index(drop = True).to_string(header = False, index = False)
 		Element('idb_facts').write(df_write)
 	elif "trading" in Element("path").value:
-		df = df[df['name'].str.startswith('profit')][['name']]
+		df = df[df['name'].str.startswith('returns(')][['name']]
 		df_write = df.reset_index(drop = True).to_string(header = False, index = False)
 		Element('idb_facts').write(df_write)
 	new_options = ""
@@ -211,20 +204,18 @@ def get_data(*args, **kws):
 		new_options = new_options + "<option>"+df.iloc[i]['name']+"</option>"
 	Element("dropdownIDB").element.innerHTML = new_options
 
-def speak(*args, **kws):
-	Element('result').write('Explanation')
+def explanation_query(*args, **kws):
+	path = Element("path").value
+	url = "data/"+path+"/chase.json"
+	with open('data/'+path+'/templates.json') as f:
+		templates_full = json.load(f)
+	chase_fact = list()
+	chase_fact.append(AggregateVerbalizer.VerbalizationFinder().get_chase_fact(url,Element("dropdownIDB").value))
+	try: 
+		Element("result").write(TemplatesGenerator.TemplatesGenerator().mapping_to_template(chase_fact[0][0], chase_fact[0][1], templates_full, templates_full, 'data/'+path+'/', Element("dropdownIDB").value, 'data/'+path+'/deterministic_verbalization.json')[['Paraphrased Verbalization']].to_string(header = False, index = False))
+	except Exception as e:
+		print(f"An error occurred: {e}")
 
-def entailment():
-	fact =  Element('fact').element.value
-	dataset = Element('dataset').element.value
-	dataset = dataset.split("\n")
-	program = Element('program').element.value
-	program = program.split("\n")
-	#result = app.is_entail(program, dataset, fact)
-	result = "jfofp"
-	if result != "automata":
-		Element('result').element.innerHTML = result
-	else:
-		Element('result').element.innerHTML = "Sorry, we currently do not support recursive programs with unbounded intervals."
 
+		
 </py-script>

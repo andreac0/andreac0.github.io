@@ -1,0 +1,9 @@
+[{"sentence":"Isabel worked at MilanUniversity in the year 2011.","number":["1"],"derived_fact":"researcher(Isabel,MilanUniversity,2011)","type":"extensional","body_atoms":""}
+,{"sentence":"Carlo worked at MilanUniversity in the year 2011.","number":["4"],"derived_fact":"researcher(Carlo,MilanUniversity,2011)","type":"extensional","body_atoms":""}
+,{"sentence":"Since Isabel worked at MilanUniversity in the year 2011, and Carlo worked at MilanUniversity in the year 2011, and Isabel is not Carlo, then Isabel has a conflict of interest with Carlo.","number":["1.1","4.1"],"derived_fact":"conflictInterest(Isabel,Carlo)","type":"intensional","body_atoms":"researcher(Isabel,MilanUniversity,2011),researcher(Carlo,MilanUniversity,2011),Isabel<>Carlo"}
+,{"sentence":"Carlo submitted the paper 561.","number":["7"],"derived_fact":"submission(Carlo,561)","type":"extensional","body_atoms":""}
+,{"sentence":"Since Carlo worked at MilanUniversity in the year 2011, and Isabel worked at MilanUniversity in the year 2011, and Carlo is not Isabel, then Carlo has a conflict of interest with Isabel.","number":["2.1","5.1"],"derived_fact":"conflictInterest(Carlo,Isabel)","type":"intensional","body_atoms":"researcher(Carlo,MilanUniversity,2011),researcher(Isabel,MilanUniversity,2011),Carlo<>Isabel"}
+,{"sentence":"Since Carlo has a conflict of interest with Isabel, and Carlo submitted the paper 561, then Isabel can't be reviewer of article 561.","number":["2.1.1","5.1.1","7.1"],"derived_fact":"excludeReviewer(Isabel,561)","type":"intensional","body_atoms":"conflictInterest(Carlo,Isabel),submission(Carlo,561)"}
+,{"sentence":"Isabel has published the paper Beautiful_LLMs.","number":["9"],"derived_fact":"hasPublication(Isabel,Beautiful_LLMs)","type":"extensional","body_atoms":""}
+,{"sentence":"Carlo has published the paper Beautiful_LLMs.","number":["12"],"derived_fact":"hasPublication(Carlo,Beautiful_LLMs)","type":"extensional","body_atoms":""}
+]

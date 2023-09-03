@@ -1,0 +1,54 @@
+[{"name":"closePosition(John,9)","pattern":"closePosition(1,2)","provenance":"[]","rule":null,"number":["1"]}
+,{"name":"vatom_301349241163(John,9)","pattern":"vatom_301349241163(1,2)","provenance":"[closePosition(John,9)]","rule":null,"number":["1"]}
+,{"name":"price(135,1)","pattern":"price(1,2)","provenance":"[]","rule":null,"number":["3"]}
+,{"name":"vatom_311349241163(135,1)","pattern":"vatom_311349241163(1,2)","provenance":"[price(135,1)]","rule":null,"number":["3"]}
+,{"name":"price(139,9)","pattern":"price(1,2)","provenance":"[]","rule":null,"number":["6"]}
+,{"name":"vatom_311349241163(139,9)","pattern":"vatom_311349241163(1,2)","provenance":"[price(139,9)]","rule":null,"number":["6"]}
+,{"name":"vatom_3(John,9,139)","pattern":"vatom_3(1,2,3)","provenance":"[vatom_301349241163(John,9), vatom_311349241163(139,9)]","rule":"vatom_3(X,T2,P2) :- closePosition(X,T2), price(P2,T2).","number":["1.T1","6.T1"]}
+,{"name":"vatom_40219209519(John,9,139)","pattern":"vatom_40219209519(1,2,3)","provenance":"[vatom_3(John,9,139)]","rule":null,"number":["1.T1","6.T1"]}
+,{"name":"openPosition(John,0.8,1)","pattern":"openPosition(1,2,3)","provenance":"[]","rule":null,"number":["9"]}
+,{"name":"orderAccepted01479586499(John,0.8,1)","pattern":"orderAccepted01479586499(1,2,3)","provenance":"[openPosition(John,0.8,1)]","rule":null,"number":["9"]}
+,{"name":"marketClose(5)","pattern":"marketClose(1)","provenance":"[]","rule":null,"number":["11"]}
+,{"name":"orderAccepted11479586499(5)","pattern":"orderAccepted11479586499(1)","provenance":"[marketClose(5)]","rule":null,"number":["11"]}
+,{"name":"orderAccepted(John,0.8,1)","pattern":"orderAccepted(1,2,3)","provenance":"[orderAccepted01479586499(John,0.8,1), null]","rule":"orderAccepted(X,Y,T1) :- openPosition(X,Y,T1), not marketClose(T1), Y<>0.","number":["9.1"]}
+,{"name":"vatom_10867470826(John,0.8,1)","pattern":"vatom_10867470826(1,2,3)","provenance":"[orderAccepted(John,0.8,1)]","rule":null,"number":["9.1"]}
+,{"name":"vatom_11867470826(135,1)","pattern":"vatom_11867470826(1,2)","provenance":"[price(135,1)]","rule":null,"number":["4"]}
+,{"name":"vatom_1(John,0.8,1,135)","pattern":"vatom_1(1,2,3,4)","provenance":"[vatom_10867470826(John,0.8,1), vatom_11867470826(135,1)]","rule":"vatom_1(X,Y,T1,P1) :- orderAccepted(X,Y,T1), price(P1,T1).","number":["4.T1","9.1.T1"]}
+,{"name":"position(John,0.8,108.0,1)","pattern":"position(1,2,3,4)","provenance":"[vatom_1(John,0.8,1,135)]","rule":"position(X,Y,K,T1) :- vatom_1(X,Y,T1,P1), K=P1*Y.","number":["4.T1.1","9.1.T1.1"]}
+,{"name":"vatom_41219209519(John,0.8,108.0,1)","pattern":"vatom_41219209519(1,2,3,4)","provenance":"[position(John,0.8,108.0,1)]","rule":null,"number":["4.T1.1","9.1.T1.1"]}
+,{"name":"vatom_4(John,9,139,0.8,108.0,1)","pattern":"vatom_4(1,2,3,4,5,6)","provenance":"[vatom_40219209519(John,9,139), vatom_41219209519(John,0.8,108.0,1)]","rule":"vatom_4(X,T2,P2,Y,K,T1) :- vatom_3(X,T2,P2), position(X,Y,K,T1), T2>T1.","number":["1.T1.T1","4.T1.1.T1","6.T1.T1","9.1.T1.1.T1"]}
+,{"name":"vatom_2(John,139,0.8,108.0)","pattern":"vatom_2(1,2,3,4)","provenance":"[vatom_4(John,9,139,0.8,108.0,1)]","rule":"vatom_2(X,P2,Y,K) :- vatom_4(X,T2,P2,Y,K,T1).","number":["1.T1.T1.T1","4.T1.1.T1.T1","6.T1.T1.T1","9.1.T1.1.T1.T1"]}
+,{"name":"returns(John,3.200000000000003)","pattern":"returns(1,2)","provenance":"[vatom_2(John,139,0.8,108.0)]","rule":"returns(X,PL) :- vatom_2(X,P2,Y,K), PL=Y*P2-K.","number":["1.T1.T1.T1.1","4.T1.1.T1.T1.1","6.T1.T1.T1.1","9.1.T1.1.T1.T1.1"]}
+,{"name":"vatom_11867470826(139,9)","pattern":"vatom_11867470826(1,2)","provenance":"[price(139,9)]","rule":null,"number":["7"]}
+,{"name":"price(136,10)","pattern":"price(1,2)","provenance":"[]","rule":null,"number":["13"]}
+,{"name":"vatom_11867470826(136,10)","pattern":"vatom_11867470826(1,2)","provenance":"[price(136,10)]","rule":null,"number":["13"]}
+,{"name":"openPosition(Caroline,-0.5,1)","pattern":"openPosition(1,2,3)","provenance":"[]","rule":null,"number":["16"]}
+,{"name":"orderAccepted01479586499(Caroline,-0.5,1)","pattern":"orderAccepted01479586499(1,2,3)","provenance":"[openPosition(Caroline,-0.5,1)]","rule":null,"number":["16"]}
+,{"name":"orderAccepted(Caroline,-0.5,1)","pattern":"orderAccepted(1,2,3)","provenance":"[orderAccepted01479586499(Caroline,-0.5,1), null]","rule":"orderAccepted(X,Y,T1) :- openPosition(X,Y,T1), not marketClose(T1), Y<>0.","number":["16.1"]}
+,{"name":"vatom_10867470826(Caroline,-0.5,1)","pattern":"vatom_10867470826(1,2,3)","provenance":"[orderAccepted(Caroline,-0.5,1)]","rule":null,"number":["16.1"]}
+,{"name":"vatom_1(Caroline,-0.5,1,135)","pattern":"vatom_1(1,2,3,4)","provenance":"[vatom_10867470826(Caroline,-0.5,1), vatom_11867470826(135,1)]","rule":"vatom_1(X,Y,T1,P1) :- orderAccepted(X,Y,T1), price(P1,T1).","number":["5.T2","16.1.T1"]}
+,{"name":"position(Caroline,-0.5,-67.5,1)","pattern":"position(1,2,3,4)","provenance":"[vatom_1(Caroline,-0.5,1,135)]","rule":"position(X,Y,K,T1) :- vatom_1(X,Y,T1,P1), K=P1*Y.","number":["5.T2.1","16.1.T1.1"]}
+,{"name":"vatom_41219209519(Caroline,-0.5,-67.5,1)","pattern":"vatom_41219209519(1,2,3,4)","provenance":"[position(Caroline,-0.5,-67.5,1)]","rule":null,"number":["5.T2.1","16.1.T1.1"]}
+,{"name":"openPosition(Mark,-0.1,9)","pattern":"openPosition(1,2,3)","provenance":"[]","rule":null,"number":["18"]}
+,{"name":"orderAccepted01479586499(Mark,-0.1,9)","pattern":"orderAccepted01479586499(1,2,3)","provenance":"[openPosition(Mark,-0.1,9)]","rule":null,"number":["18"]}
+,{"name":"orderAccepted(Mark,-0.1,9)","pattern":"orderAccepted(1,2,3)","provenance":"[orderAccepted01479586499(Mark,-0.1,9), null]","rule":"orderAccepted(X,Y,T1) :- openPosition(X,Y,T1), not marketClose(T1), Y<>0.","number":["18.1"]}
+,{"name":"vatom_10867470826(Mark,-0.1,9)","pattern":"vatom_10867470826(1,2,3)","provenance":"[orderAccepted(Mark,-0.1,9)]","rule":null,"number":["18.1"]}
+,{"name":"vatom_1(Mark,-0.1,9,139)","pattern":"vatom_1(1,2,3,4)","provenance":"[vatom_10867470826(Mark,-0.1,9), vatom_11867470826(139,9)]","rule":"vatom_1(X,Y,T1,P1) :- orderAccepted(X,Y,T1), price(P1,T1).","number":["7.T1","18.1.T1"]}
+,{"name":"position(Mark,-0.1,-13.9,9)","pattern":"position(1,2,3,4)","provenance":"[vatom_1(Mark,-0.1,9,139)]","rule":"position(X,Y,K,T1) :- vatom_1(X,Y,T1,P1), K=P1*Y.","number":["7.T1.1","18.1.T1.1"]}
+,{"name":"vatom_41219209519(Mark,-0.1,-13.9,9)","pattern":"vatom_41219209519(1,2,3,4)","provenance":"[position(Mark,-0.1,-13.9,9)]","rule":null,"number":["7.T1.1","18.1.T1.1"]}
+,{"name":"vatom_311349241163(136,10)","pattern":"vatom_311349241163(1,2)","provenance":"[price(136,10)]","rule":null,"number":["14"]}
+,{"name":"closePosition(Caroline,10)","pattern":"closePosition(1,2)","provenance":"[]","rule":null,"number":["20"]}
+,{"name":"vatom_301349241163(Caroline,10)","pattern":"vatom_301349241163(1,2)","provenance":"[closePosition(Caroline,10)]","rule":null,"number":["20"]}
+,{"name":"vatom_3(Caroline,10,136)","pattern":"vatom_3(1,2,3)","provenance":"[vatom_301349241163(Caroline,10), vatom_311349241163(136,10)]","rule":"vatom_3(X,T2,P2) :- closePosition(X,T2), price(P2,T2).","number":["14.T1","20.T1"]}
+,{"name":"vatom_40219209519(Caroline,10,136)","pattern":"vatom_40219209519(1,2,3)","provenance":"[vatom_3(Caroline,10,136)]","rule":null,"number":["14.T1","20.T1"]}
+,{"name":"vatom_4(Caroline,10,136,-0.5,-67.5,1)","pattern":"vatom_4(1,2,3,4,5,6)","provenance":"[vatom_40219209519(Caroline,10,136), vatom_41219209519(Caroline,-0.5,-67.5,1)]","rule":"vatom_4(X,T2,P2,Y,K,T1) :- vatom_3(X,T2,P2), position(X,Y,K,T1), T2>T1.","number":["5.T2.1.T1","14.T1.T1","16.1.T1.1.T1","20.T1.T1"]}
+,{"name":"vatom_2(Caroline,136,-0.5,-67.5)","pattern":"vatom_2(1,2,3,4)","provenance":"[vatom_4(Caroline,10,136,-0.5,-67.5,1)]","rule":"vatom_2(X,P2,Y,K) :- vatom_4(X,T2,P2,Y,K,T1).","number":["5.T2.1.T1.T1","14.T1.T1.T1","16.1.T1.1.T1.T1","20.T1.T1.T1"]}
+,{"name":"returns(Caroline,-0.5)","pattern":"returns(1,2)","provenance":"[vatom_2(Caroline,136,-0.5,-67.5)]","rule":"returns(X,PL) :- vatom_2(X,P2,Y,K), PL=Y*P2-K.","number":["5.T2.1.T1.T1.1","14.T1.T1.T1.1","16.1.T1.1.T1.T1.1","20.T1.T1.T1.1"]}
+,{"name":"closePosition(Mark,10)","pattern":"closePosition(1,2)","provenance":"[]","rule":null,"number":["22"]}
+,{"name":"vatom_301349241163(Mark,10)","pattern":"vatom_301349241163(1,2)","provenance":"[closePosition(Mark,10)]","rule":null,"number":["22"]}
+,{"name":"vatom_3(Mark,10,136)","pattern":"vatom_3(1,2,3)","provenance":"[vatom_301349241163(Mark,10), vatom_311349241163(136,10)]","rule":"vatom_3(X,T2,P2) :- closePosition(X,T2), price(P2,T2).","number":["15.T2","22.T1"]}
+,{"name":"vatom_40219209519(Mark,10,136)","pattern":"vatom_40219209519(1,2,3)","provenance":"[vatom_3(Mark,10,136)]","rule":null,"number":["15.T2","22.T1"]}
+,{"name":"vatom_4(Mark,10,136,-0.1,-13.9,9)","pattern":"vatom_4(1,2,3,4,5,6)","provenance":"[vatom_40219209519(Mark,10,136), vatom_41219209519(Mark,-0.1,-13.9,9)]","rule":"vatom_4(X,T2,P2,Y,K,T1) :- vatom_3(X,T2,P2), position(X,Y,K,T1), T2>T1.","number":["7.T1.1.T1","15.T2.T1","18.1.T1.1.T1","22.T1.T1"]}
+,{"name":"vatom_2(Mark,136,-0.1,-13.9)","pattern":"vatom_2(1,2,3,4)","provenance":"[vatom_4(Mark,10,136,-0.1,-13.9,9)]","rule":"vatom_2(X,P2,Y,K) :- vatom_4(X,T2,P2,Y,K,T1).","number":["7.T1.1.T1.T1","15.T2.T1.T1","18.1.T1.1.T1.T1","22.T1.T1.T1"]}
+,{"name":"returns(Mark,0.29999999999999893)","pattern":"returns(1,2)","provenance":"[vatom_2(Mark,136,-0.1,-13.9)]","rule":"returns(X,PL) :- vatom_2(X,P2,Y,K), PL=Y*P2-K.","number":["7.T1.1.T1.T1.1","15.T2.T1.T1.1","18.1.T1.1.T1.T1.1","22.T1.T1.T1.1"]}
+]
