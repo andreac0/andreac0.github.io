@@ -79,7 +79,15 @@
 			<section class="content">
 				<h4>Result</h4>
 				<div class="divcontainer">
-					<div id="result"></div>
+					<div id = "deterministic" style="width:450px;">
+						<h4>Deterministic Verbalization:</h4>
+						<div id = "res_det"></div>
+					</div>
+					<div id = "template_cont" style="width:450px;">
+						<h4>Our Framework:</h4>
+						<div id="result"></div>
+					</div>
+				
 				</div>
 			</section>
 			<hr/>
@@ -212,7 +220,9 @@ def explanation_query(*args, **kws):
 	chase_fact = list()
 	chase_fact.append(AggregateVerbalizer.VerbalizationFinder().get_chase_fact(url,Element("dropdownIDB").value))
 	try: 
-		Element("result").write(TemplatesGenerator.TemplatesGenerator().mapping_to_template(chase_fact[0][0], chase_fact[0][1], templates_full, templates_full, 'data/'+path+'/', Element("dropdownIDB").value, 'data/'+path+'/deterministic_verbalization.json')[['Paraphrased Verbalization']].to_string(header = False, index = False))
+		verb = TemplatesGenerator.TemplatesGenerator().mapping_to_template(chase_fact[0][0], chase_fact[0][1], templates_full, templates_full, 'data/'+path+'/', Element("dropdownIDB").value, 'data/'+path+'/deterministic_verbalization.json')
+		Element("res_det").write(verb[['Original Verbalization']].to_string(header = False, index = False))
+		Element("result").write(verb[['Paraphrased Verbalization']].to_string(header = False, index = False))
 	except Exception as e:
 		print(f"An error occurred: {e}")
 
