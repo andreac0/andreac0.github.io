@@ -11,6 +11,7 @@ from pycode import AggregateVerbalizer
 from . import ProgramVerbalizer
 from pycode.utils import *
 
+
 class TemplatesGenerator:
     
     logging.getLogger().setLevel(logging.INFO)
@@ -448,25 +449,33 @@ class TemplatesGenerator:
 
         new_verb = []
         for atom in atom_chase:
+            # print(atom)
             for verb in verb_json:
                 if atom == verb['atom']:
                     new_verb.append(verb)
+                    # print(verb['atom'])
 
         new_verb.reverse()
         msum_order_verb = []
         seen = []
         for verb in new_verb:
-         if verb['atom'] not in seen:
-            if 'msum' not in verb['body']:
+            # print(verb)
+            if verb['atom'] not in seen:
+                if 'msum' not in verb['body']:
                     msum_order_verb.append(verb)
-            else:
-                msum_order_verb.append(verb)
-                for verb2 in new_verb:
-                    if verb2['atom'] in verb['body']:
-                        msum_order_verb.append(verb2)
-                        seen.append(verb2['atom'])
+                else:
+                    # check consistency
+                    if verb['atom'].split('(') != new_verb[0]['atom'].split('('):
+                        msum_order_verb.append(verb)
+                    else:
+                        msum_order_verb.append(verb)
+                        for verb2 in new_verb:
+                            if verb2['atom'] in verb['body']:
+                                msum_order_verb.append(verb2)
+                                seen.append(verb2['atom'])
+
         msum_order_verb.reverse()
-        
+
         chase_fact.reverse()
 
         for k in range(len(chase_fact)):
@@ -475,7 +484,7 @@ class TemplatesGenerator:
                 #search for that vatom
                 # print(chase_fact[k])
                 for fact2 in chase_fact:
-                    if fact2.split(':-')[0] in chase_fact[k].split(':-')[1] and 'vatom' in fact2.split(':-')[0] :
+                    if fact2.split(':-')[0] in chase_fact[k].split(':-')[1] and 'vatom' in fact2.split(':-')[0]:
                         chase_fact[k] = chase_fact[k].replace(fact2.split(':-')[0], fact2.split(':-')[1][:-1])
                         break
 
@@ -492,6 +501,7 @@ class TemplatesGenerator:
     def mapping_to_template(self, chase, atom_chase, templates, templates_rec, path_output, fact_to_explain, path_verb_chase):
         # print('\n')
         # print(fact_to_explain)
+        # print('Mapping:')
  
         # First, retrieve from the chase all facts
         explain_derivation = True
@@ -531,18 +541,17 @@ class TemplatesGenerator:
                 recursive_case = True
         atom2 = atom_chase.copy()
         atom2.reverse()
+        # for ll in realization:
+        #     print(ll['atom'])
 
         realization, chase_fact = self.reorder_verbalization(realization, atom2, chase_fact)
         
         # Unfold if direct recursion
-        # print(realization)
         realized_rule = []
         unfolded_chase = self.unfolding(realization, recursive_case)
 
         for j in unfolded_chase:
             if j['body']:
-                # if j['atom'].split('(')[0] in j['body'] and len(unfolded_chase) < len(realization): 
-                #     recursive_case = True
                 realized_rule.append(j['atom']+':-'+j['body'])
         # print(realized_rule)
         # Indirect recursion
@@ -573,6 +582,8 @@ class TemplatesGenerator:
             chase_splits = [list(dict.fromkeys(chase_fact))]
 
         final_verb = []
+
+        # print(chase_splits)
 
         for r in range(len(chase_splits)):
             found = False

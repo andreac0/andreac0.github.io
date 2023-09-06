@@ -1,0 +1,34 @@
+[{"name":"own(Norway_Credit,STOXX_LTD,0.47)","pattern":"own(1,2,3)","provenance":"[]","rule":null,"number":["1"]}
+,{"name":"mightclose(Norway_Credit,STOXX_LTD,0.47)","pattern":"mightclose(1,2,3)","provenance":"[own(Norway_Credit,STOXX_LTD,0.47)]","rule":"mightclose(C1,C2,S0) :- own(C1,C2,S0).","number":["1.1"]}
+,{"name":"poscloseLink(Norway_Credit,STOXX_LTD,0.47)","pattern":"poscloseLink(1,2,3)","provenance":"[mightclose(Norway_Credit,STOXX_LTD,0.47)]","rule":"poscloseLink(C4,C5,TS) :- mightclose(C4,C5,S4), TS=msum(S4).","number":["1.1.1"]}
+,{"name":"closelink(Norway_Credit,STOXX_LTD)","pattern":"closelink(1,2)","provenance":"[poscloseLink(Norway_Credit,STOXX_LTD,0.47)]","rule":"closelink(C4,C5) :- poscloseLink(C4,C5,TS), TS>0.2.","number":["1.1.1.1"]}
+,{"name":"own(STOXX_LTD,Saving_Bank,0.32)","pattern":"own(1,2,3)","provenance":"[]","rule":null,"number":["4"]}
+,{"name":"mightclose(STOXX_LTD,Saving_Bank,0.32)","pattern":"mightclose(1,2,3)","provenance":"[own(STOXX_LTD,Saving_Bank,0.32)]","rule":"mightclose(C1,C2,S0) :- own(C1,C2,S0).","number":["4.1"]}
+,{"name":"poscloseLink(STOXX_LTD,Saving_Bank,0.32)","pattern":"poscloseLink(1,2,3)","provenance":"[mightclose(STOXX_LTD,Saving_Bank,0.32)]","rule":"poscloseLink(C4,C5,TS) :- mightclose(C4,C5,S4), TS=msum(S4).","number":["4.1.1"]}
+,{"name":"closelink(STOXX_LTD,Saving_Bank)","pattern":"closelink(1,2)","provenance":"[poscloseLink(STOXX_LTD,Saving_Bank,0.32)]","rule":"closelink(C4,C5) :- poscloseLink(C4,C5,TS), TS>0.2.","number":["4.1.1.1"]}
+,{"name":"own(Gain_INC,Saving_Bank,0.34)","pattern":"own(1,2,3)","provenance":"[]","rule":null,"number":["7"]}
+,{"name":"mightclose(Gain_INC,Saving_Bank,0.34)","pattern":"mightclose(1,2,3)","provenance":"[own(Gain_INC,Saving_Bank,0.34)]","rule":"mightclose(C1,C2,S0) :- own(C1,C2,S0).","number":["7.1"]}
+,{"name":"poscloseLink(Gain_INC,Saving_Bank,0.34)","pattern":"poscloseLink(1,2,3)","provenance":"[mightclose(Gain_INC,Saving_Bank,0.34)]","rule":"poscloseLink(C4,C5,TS) :- mightclose(C4,C5,S4), TS=msum(S4).","number":["7.1.1"]}
+,{"name":"closelink(Gain_INC,Saving_Bank)","pattern":"closelink(1,2)","provenance":"[poscloseLink(Gain_INC,Saving_Bank,0.34)]","rule":"closelink(C4,C5) :- poscloseLink(C4,C5,TS), TS>0.2.","number":["7.1.1.1"]}
+,{"name":"own(Norway_Credit,Gain_INC,0.26)","pattern":"own(1,2,3)","provenance":"[]","rule":null,"number":["10"]}
+,{"name":"mightclose(Norway_Credit,Gain_INC,0.26)","pattern":"mightclose(1,2,3)","provenance":"[own(Norway_Credit,Gain_INC,0.26)]","rule":"mightclose(C1,C2,S0) :- own(C1,C2,S0).","number":["10.1"]}
+,{"name":"poscloseLink(Norway_Credit,Gain_INC,0.26)","pattern":"poscloseLink(1,2,3)","provenance":"[mightclose(Norway_Credit,Gain_INC,0.26)]","rule":"poscloseLink(C4,C5,TS) :- mightclose(C4,C5,S4), TS=msum(S4).","number":["10.1.1"]}
+,{"name":"closelink(Norway_Credit,Gain_INC)","pattern":"closelink(1,2)","provenance":"[poscloseLink(Norway_Credit,Gain_INC,0.26)]","rule":"closelink(C4,C5) :- poscloseLink(C4,C5,TS), TS>0.2.","number":["10.1.1.1"]}
+,{"name":"vatom_101690469895(Norway_Credit,STOXX_LTD,0.47)","pattern":"vatom_101690469895(1,2,3)","provenance":"[mightclose(Norway_Credit,STOXX_LTD,0.47)]","rule":null,"number":["1.1"]}
+,{"name":"vatom_111690469895(Norway_Credit,STOXX_LTD,0.47)","pattern":"vatom_111690469895(1,2,3)","provenance":"[own(Norway_Credit,STOXX_LTD,0.47)]","rule":null,"number":["2"]}
+,{"name":"vatom_111690469895(STOXX_LTD,Saving_Bank,0.32)","pattern":"vatom_111690469895(1,2,3)","provenance":"[own(STOXX_LTD,Saving_Bank,0.32)]","rule":null,"number":["5"]}
+,{"name":"vatom_1(Norway_Credit,Saving_Bank,0.47,0.32)","pattern":"vatom_1(1,2,3,4)","provenance":"[vatom_101690469895(Norway_Credit,STOXX_LTD,0.47), vatom_111690469895(STOXX_LTD,Saving_Bank,0.32)]","rule":"vatom_1(C1,C3,S1,S2) :- mightclose(C1,C2,S1), own(C2,C3,S2).","number":["1.1.T1","5.T1"]}
+,{"name":"mightclose(Norway_Credit,Saving_Bank,0.1504)","pattern":"mightclose(1,2,3)","provenance":"[vatom_1(Norway_Credit,Saving_Bank,0.47,0.32)]","rule":"mightclose(C1,C3,S3) :- vatom_1(C1,C3,S1,S2), S3=S1*S2.","number":["1.1.T1.1","5.T1.1"]}
+,{"name":"poscloseLink(Norway_Credit,Saving_Bank,0.15)","pattern":"poscloseLink(1,2,3)","provenance":"[mightclose(Norway_Credit,Saving_Bank,0.1504)]","rule":"poscloseLink(C4,C5,TS) :- mightclose(C4,C5,S4), TS=msum(S4).","number":["1.1.T1.1.1","5.T1.1.1"]}
+,{"name":"vatom_111690469895(Gain_INC,Saving_Bank,0.34)","pattern":"vatom_111690469895(1,2,3)","provenance":"[own(Gain_INC,Saving_Bank,0.34)]","rule":null,"number":["8"]}
+,{"name":"vatom_111690469895(Norway_Credit,Gain_INC,0.26)","pattern":"vatom_111690469895(1,2,3)","provenance":"[own(Norway_Credit,Gain_INC,0.26)]","rule":null,"number":["11"]}
+,{"name":"vatom_101690469895(STOXX_LTD,Saving_Bank,0.32)","pattern":"vatom_101690469895(1,2,3)","provenance":"[mightclose(STOXX_LTD,Saving_Bank,0.32)]","rule":null,"number":["4.1"]}
+,{"name":"vatom_101690469895(Gain_INC,Saving_Bank,0.34)","pattern":"vatom_101690469895(1,2,3)","provenance":"[mightclose(Gain_INC,Saving_Bank,0.34)]","rule":null,"number":["7.1"]}
+,{"name":"vatom_101690469895(Norway_Credit,Gain_INC,0.26)","pattern":"vatom_101690469895(1,2,3)","provenance":"[mightclose(Norway_Credit,Gain_INC,0.26)]","rule":null,"number":["10.1"]}
+,{"name":"vatom_1(Norway_Credit,Saving_Bank,0.26,0.34)","pattern":"vatom_1(1,2,3,4)","provenance":"[vatom_101690469895(Norway_Credit,Gain_INC,0.26), vatom_111690469895(Gain_INC,Saving_Bank,0.34)]","rule":"vatom_1(C1,C3,S1,S2) :- mightclose(C1,C2,S1), own(C2,C3,S2).","number":["8.T1","10.1.T1"]}
+,{"name":"mightclose(Norway_Credit,Saving_Bank,0.0884)","pattern":"mightclose(1,2,3)","provenance":"[vatom_1(Norway_Credit,Saving_Bank,0.26,0.34)]","rule":"mightclose(C1,C3,S3) :- vatom_1(C1,C3,S1,S2), S3=S1*S2.","number":["8.T1.1","10.1.T1.1"]}
+,{"name":"poscloseLink(Norway_Credit,Saving_Bank,0.238)","pattern":"poscloseLink(1,2,3)","provenance":"[mightclose(Norway_Credit,Saving_Bank,0.0884), mightclose(Norway_Credit,Saving_Bank,0.1504)]","rule":"poscloseLink(C4,C5,TS) :- mightclose(C4,C5,S4), TS=msum(S4).","number":["1.1.T1.1.2","5.T1.1.2","8.T1.1.1","10.1.T1.1.1"]}
+,{"name":"closelink(Norway_Credit,Saving_Bank)","pattern":"closelink(1,2)","provenance":"[poscloseLink(Norway_Credit,Saving_Bank,0.238)]","rule":"closelink(C4,C5) :- poscloseLink(C4,C5,TS), TS>0.2.","number":["1.1.T1.1.2.1","5.T1.1.2.1","8.T1.1.1.1","10.1.T1.1.1.1"]}
+,{"name":"vatom_101690469895(Norway_Credit,Saving_Bank,0.1504)","pattern":"vatom_101690469895(1,2,3)","provenance":"[mightclose(Norway_Credit,Saving_Bank,0.1504)]","rule":null,"number":["1.1.T1.1","5.T1.1"]}
+,{"name":"vatom_101690469895(Norway_Credit,Saving_Bank,0.0884)","pattern":"vatom_101690469895(1,2,3)","provenance":"[mightclose(Norway_Credit,Saving_Bank,0.0884)]","rule":null,"number":["8.T1.1","10.1.T1.1"]}
+]
