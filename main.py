@@ -11,6 +11,8 @@ from pycode.utils import *
 from openai import OpenAI
 import requests
 from js import localStorage, document, console, XMLHttpRequest
+from dotenv import load_dotenv
+import os
 
 
 
@@ -51,48 +53,50 @@ def explanation_query(*args, **kws):
 		
 		Element("res_det").write(verb[['Original Verbalization']].to_string(header = False, index = False))
 		
-		# prompt_para= 'Paraphrase this text:' + verb[['Original Verbalization']].to_string(header = False, index = False)
-		# bearer = "Bearer <APIKEY>"
-		# engine = "gpt-3.5-turbo-instruct"
-		# xhr = XMLHttpRequest.new()
-		# xhr.open("POST", "https://api.openai.com/v1/completions", False)
-		# xhr.setRequestHeader("Content-Type", "application/json")
-		# xhr.setRequestHeader("Authorization", bearer)
-		# data = json.dumps({
-		# 	"model": engine,
-		# 	"prompt": prompt_para,
-		# 	"max_tokens": 250,
-		# 	"temperature": 0.9,
-		# 	"top_p": 1,
-		# 	"frequency_penalty": 0,
-		# 	"presence_penalty": 0
-		# })
-		# xhr.send(data)
-		# paraph = json.loads(xhr.response)
-		# Element("paraphrased").write(paraph['choices'][0]['text'])
+		load_dotenv()
+		secret_key = os.getenv('API_KEY')
+		prompt_para= 'Paraphrase this text:' + verb[['Original Verbalization']].to_string(header = False, index = False)
+		bearer = "Bearer " + secret_key
+		engine = "gpt-3.5-turbo-instruct"
+		xhr = XMLHttpRequest.new()
+		xhr.open("POST", "https://api.openai.com/v1/completions", False)
+		xhr.setRequestHeader("Content-Type", "application/json")
+		xhr.setRequestHeader("Authorization", bearer)
+		data = json.dumps({
+			"model": engine,
+			"prompt": prompt_para,
+			"max_tokens": 250,
+			"temperature": 0.9,
+			"top_p": 1,
+			"frequency_penalty": 0,
+			"presence_penalty": 0
+		})
+		xhr.send(data)
+		paraph = json.loads(xhr.response)
+		Element("paraphrased").write(paraph['choices'][0]['text'])
 	
-		# prompt_summary = 'Summarize this text:' + verb[['Original Verbalization']].to_string(header = False, index = False)
-		# xhr = XMLHttpRequest.new()
-		# xhr.open("POST", "https://api.openai.com/v1/completions", False)
-		# xhr.setRequestHeader("Content-Type", "application/json")
-		# xhr.setRequestHeader("Authorization", bearer)
-		# data = json.dumps({
-		# 	"model": engine,
-		# 	"prompt": prompt_summary,
-		# 	"max_tokens": 250,
-		# 	"temperature": 0.9,
-		# 	"top_p": 1,
-		# 	"frequency_penalty": 0,
-		# 	"presence_penalty": 0
-		# })
-		# xhr.send(data)
-		# summarization = json.loads(xhr.response)
+		prompt_summary = 'Summarize this text:' + verb[['Original Verbalization']].to_string(header = False, index = False)
+		xhr = XMLHttpRequest.new()
+		xhr.open("POST", "https://api.openai.com/v1/completions", False)
+		xhr.setRequestHeader("Content-Type", "application/json")
+		xhr.setRequestHeader("Authorization", bearer)
+		data = json.dumps({
+			"model": engine,
+			"prompt": prompt_summary,
+			"max_tokens": 250,
+			"temperature": 0.9,
+			"top_p": 1,
+			"frequency_penalty": 0,
+			"presence_penalty": 0
+		})
+		xhr.send(data)
+		summarization = json.loads(xhr.response)
 
-		# Element("paraphrased").write(paraph['choices'][0]['text'])
-		# Element("summarized").write(summarization['choices'][0]['text'])
+		Element("paraphrased").write(paraph['choices'][0]['text'])
+		Element("summarized").write(summarization['choices'][0]['text'])
 
-		Element("paraphrased").write('---')
-		Element("summarized").write('---')
+		# Element("paraphrased").write('---')
+		# Element("summarized").write('---')
 		
 		Element("result").write(verb[['Paraphrased Verbalization']].to_string(header = False, index = False))
 
