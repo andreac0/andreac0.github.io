@@ -14,7 +14,8 @@ from js import localStorage, document, console, XMLHttpRequest
 from dotenv import load_dotenv
 import os
 
-
+secret_key = os.environ('API_KEY')
+print(secret_key)
 
 def get_data(*args, **kws):
 	df = pd.read_json("data/"+Element("path").value+"/chase.json")[['name','provenance']]
