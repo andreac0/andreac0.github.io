@@ -14,15 +14,12 @@
     <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
     <script defer src="https://pyscript.net/latest/pyscript.js"></script>
     <py-config>
-       packages =["./static/littleutils-0.2.2-py3-none-any.whl", "pandas"]
+       packages =["./static/littleutils-0.2.2-py3-none-any.whl", "pandas","openai==1.3.6","ssl","typing_extensions==4.7.1","requests"]
        [[fetch]]
        files=["./pycode/AggregateVerbalizer.py",
 	   		"./pycode/TemplatesGenerator.py",
 			"./pycode/ProgramVerbalizer.py",
 			"./pycode/utils.py",
-	   		"./data/conflicts/chase.json",
-			"./data/conflicts/deterministic_verbalization.json",
-			"./data/conflicts/templates.json",
 			"./data/trading/chase.json",
 			"./data/trading/deterministic_verbalization.json",
 			"./data/trading/templates.json",
@@ -48,7 +45,6 @@
 
 				<select name="examples" id="examples" py-click="get_data()">
 					<option value ="NA"></option>
-				  	<option value= "PR">Peer Reviews Conflict of Interest</option>
 					<option value= "TR">Trading via Smart Contract</option>
 					<option value= "OW">Ownership</option>
 					<option value= "CL">Close Link</option>
@@ -91,23 +87,38 @@
 			<section class="content">
 				<h4>Result</h4>
 				<div class="divcontainer">
-					<div id = "deterministic" style="width:450px;">
+					<div id = "deterministic" style="width:850px;">
 						<h4>Deterministic Verbalization:</h4>
-						<div id = "res_det"></div>
+						<div id = "res_det" style="font-size: 70%"></div>
 					</div>
-					<div id = "template_cont" style="width:450px;">
-						<h4>Our Framework:</h4>
-						<div id="result"></div>
+				</div>
+				<div class="divcontainer">
+					<div id = "paraphrasis" style="width:850px;">
+						<h4>Paraphrasis:</h4>
+						<div id="paraphrased" style="font-size: 70%"></div>
 					</div>
-				
+				</div>
+				<div class="divcontainer">
+					<div id = "summarization" style="width:850px;">
+						<h4>Summary:</h4>	
+						<div id="summarized" style="font-size: 70%"></div>			
+					</div>
+				</div>
+				<div class="divcontainer">
+					<div id = "template_cont" style="width:850px;">
+						<h4>Framework:</h4>	
+						<div id="result" style="font-size: 70%"></div>			
+				    </div>
 				</div>
 			</section>
 			<hr/>
-		</div>
+		</section>
 		<div id="path"></div>
 
 	</body>
 </html>
+
+<script type="py" src="./main.py"></script>
 <script src="js/jquery-3.2.1.min.js"></script>
 <script src="js/spin-2.3.2.js"></script>
 <script src="js/classie.js"></script>
@@ -161,17 +172,7 @@
 		// jQuery
 		var selectedVal = $(this).find(':selected').val();
 		// var selectedText = $(this).find(':selected').text();
-    if (selectedVal == "PR"){
-          var desc = "<b>Description</b>: The program detects potential conflicts of interest (CoI) according to general peer review rules. Multiple conditions might determine a CoI, and we ranked them according to the severity of the CoI, which can be further investigated by looking at the generated NL report to decide whether the exclusion really applies. ";
-		  var path = "conflicts"
-		  $("#path").val(path)
-		  $("#desc").html(desc);
-		  $("#query").html("<b>Query of interest:</b>$$?-ExcludeReviewer(y,s)$$");
-		  $("#logicProgram").html("$$Researcher(x,z,d),Researcher(y,z,d), x \\neq y \\to Conflict(x,y)$$ \n $$hasPublication(x,p),hasPublication(y,p), x \\neq y  \\to Conflict(x,y)$$ \n $$Conflict(x,y), Submission(x,s) \\to ExcludeReviewer(y,s)$$");
-		  MathJax.Hub.Queue(["Typeset", MathJax.Hub, "logicProgram"]);
-		  MathJax.Hub.Queue(["Typeset", MathJax.Hub, "query"]);
-    }
-    else if(selectedVal == "TR"){
+    if(selectedVal == "TR"){
         var desc = "<b>Description</b>: Logic programs can be to define Smart Contracts which run on a blockchain. This program describes a simple version of trading of an asset via a Smart Contract, where a trader can send Open position orders, Close position orders and with market information evolving (Price)";
 		var path = "trading"
 		$("#path").val(path)
@@ -215,68 +216,9 @@
 </script>
 <script type="text/javascript">
 		var desc = "";
-		var path = "conflicts"
+		var path = "trading"
 		$("#path").val(path)
 		$("#desc").html(desc);
 		$("#query")("");
 		$("#logicProgram").html("");
-
-
-
 </script>
-
-<py-script>
-from js import document
-import pandas as pd
-import json
-from pyodide.http import open_url
-from datetime import datetime as dt
-from pyodide.ffi.wrappers import add_event_listener
-from pycode import AggregateVerbalizer
-from pycode import ProgramVerbalizer
-from pycode import TemplatesGenerator
-from pycode.utils import *
-
-def get_data(*args, **kws):
-	df = pd.read_json("data/"+Element("path").value+"/chase.json")[['name','provenance']]
-	df2 = df[df['provenance'] == "[]"]['name'].reset_index(drop = True).to_string(header = False, index = False)
-	Element('edb_facts').write(df2)
-	if "conflicts" in Element("path").value:
-		df = df[df['name'].str.startswith('excludeReviewer(')][['name']]
-		df_write = df.reset_index(drop = True).to_string(header = False, index = False)
-		Element('idb_facts').write(df_write)
-	elif "trading" in Element("path").value:
-		df = df[df['name'].str.startswith('returns(')][['name']]
-		df_write = df.reset_index(drop = True).to_string(header = False, index = False)
-		Element('idb_facts').write(df_write)
-	elif "ownership" in Element("path").value:
-		df = df[df['name'].str.startswith('control(')][['name']]
-		df_write = df.reset_index(drop = True).to_string(header = False, index = False)
-		Element('idb_facts').write(df_write)
-	elif "closeLink" in Element("path").value:
-		df = df[df['name'].str.startswith('closelink(')][['name']]
-		df_write = df.reset_index(drop = True).to_string(header = False, index = False)
-		Element('idb_facts').write(df_write)
-	elif "shock" in Element("path").value:
-		df = df[df['name'].str.startswith('default(')][['name']]
-		df_write = df.reset_index(drop = True).to_string(header = False, index = False)
-		Element('idb_facts').write(df_write)
-	new_options = ""
-	for i in range(len(df)):
-		new_options = new_options + "<option>"+df.iloc[i]['name']+"</option>"
-	Element("dropdownIDB").element.innerHTML = new_options
-
-def explanation_query(*args, **kws):
-	path = Element("path").value
-	url = "data/"+path+"/chase.json"
-	with open('data/'+path+'/templates.json') as f:
-		templates_full = json.load(f)
-	chase_fact = list()
-	chase_fact.append(AggregateVerbalizer.VerbalizationFinder().get_chase_fact(url,Element("dropdownIDB").value))
-	try: 
-		verb = TemplatesGenerator.TemplatesGenerator().mapping_to_template(chase_fact[0][0], chase_fact[0][1], templates_full, templates_full, 'data/'+path+'/', Element("dropdownIDB").value, 'data/'+path+'/deterministic_verbalization.json')
-		Element("res_det").write(verb[['Original Verbalization']].to_string(header = False, index = False))
-		Element("result").write(verb[['Paraphrased Verbalization']].to_string(header = False, index = False))
-	except Exception as e:
-		print(f"An error occurred: {e}")
-</py-script>
