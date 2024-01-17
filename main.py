@@ -52,9 +52,9 @@ def explanation_query(*args, **kws):
 		
 		Element("res_det").write(verb[['Original Verbalization']].to_string(header = False, index = False))
 		
-		# load_dotenv()
-		# secret_key = os.getenv('API_KEY')
-		secret_key = os.environ-get('API_KEY')
+		load_dotenv()
+		secret_key = os.getenv('API_KEY')
+		# secret_key = os.environ-get('API_KEY')
 		prompt_para= 'Paraphrase this text:' + verb[['Original Verbalization']].to_string(header = False, index = False)
 		bearer = "Bearer " + secret_key
 		engine = "gpt-3.5-turbo-instruct"
