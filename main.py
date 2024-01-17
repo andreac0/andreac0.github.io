@@ -14,7 +14,7 @@ from js import localStorage, document, console, XMLHttpRequest
 from dotenv import load_dotenv
 import os
 
-secret_key = os.environ('API_KEY')
+secret_key = os.environ.get('API_KEY')
 print(secret_key)
 
 def get_data(*args, **kws):
