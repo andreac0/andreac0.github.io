@@ -14,8 +14,6 @@ from js import localStorage, document, console, XMLHttpRequest
 from dotenv import load_dotenv
 import os
 
-secret_key = os.environ.get('API_KEY')
-print(secret_key)
 
 def get_data(*args, **kws):
 	df = pd.read_json("data/"+Element("path").value+"/chase.json")[['name','provenance']]
@@ -56,7 +54,7 @@ def explanation_query(*args, **kws):
 		
 		# load_dotenv()
 		# secret_key = os.getenv('API_KEY')
-		secret_key = os.environ('API_KEY')
+		secret_key = os.environ-get('API_KEY')
 		prompt_para= 'Paraphrase this text:' + verb[['Original Verbalization']].to_string(header = False, index = False)
 		bearer = "Bearer " + secret_key
 		engine = "gpt-3.5-turbo-instruct"
