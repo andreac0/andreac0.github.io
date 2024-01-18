@@ -20,24 +20,33 @@ def get_data(*args, **kws):
 	df2 = df[df['provenance'] == "[]"]['name'].reset_index(drop = True).to_string(header = False, index = False)
 	Element('edb_facts').write(df2)
 	if "trading" in Element("path").value:
-		df = df[df['name'].str.startswith('returns(')][['name']]
-		df_write = df.reset_index(drop = True).to_string(header = False, index = False)
-		Element('idb_facts').write(df_write)
+		# df = df[df['name'].str.startswith('returns(')][['name']]
+		# df_write = df.reset_index(drop = True).to_string(header = False, index = False)
+		# Element('idb_facts').write(df_write)
+		df_nl = pd.read_csv("data/trading/nl.csv")
+		Element('idb_facts').write(df_nl['Derived Fact'].to_string(header = False, index = False))
 	elif "ownership" in Element("path").value:
-		df = df[df['name'].str.startswith('control(')][['name']]
-		df_write = df.reset_index(drop = True).to_string(header = False, index = False)
-		Element('idb_facts').write(df_write)
+		# df = df[df['name'].str.startswith('control(')][['name']]
+		# df_write = df.reset_index(drop = True).to_string(header = False, index = False)
+		# Element('idb_facts').write(df_write)
+		df_nl = pd.read_csv("data/ownership/nl.csv")
+		Element('idb_facts').write(df_nl['Derived Fact'].to_string(header = False, index = False))
 	elif "closeLink" in Element("path").value:
-		df = df[df['name'].str.startswith('closelink(')][['name']]
-		df_write = df.reset_index(drop = True).to_string(header = False, index = False)
-		Element('idb_facts').write(df_write)
+		# df = df[df['name'].str.startswith('closelink(')][['name']]
+		# df_write = df.reset_index(drop = True).to_string(header = False, index = False)
+		# Element('idb_facts').write(df_write)
+		df_nl = pd.read_csv("data/closeLink/nl.csv")
+		Element('idb_facts').write(df_nl['Derived Fact'].to_string(header = False, index = False))
 	elif "shock" in Element("path").value:
-		df = df[df['name'].str.startswith('default(')][['name']]
-		df_write = df.reset_index(drop = True).to_string(header = False, index = False)
-		Element('idb_facts').write(df_write)
+		# df = df[df['name'].str.startswith('default(')][['name']]
+		# df_write = df.reset_index(drop = True).to_string(header = False, index = False)
+		df_nl = pd.read_csv("data/shock/nl.csv")
+		Element('idb_facts').write(df_nl['Derived Fact'].to_string(header = False, index = False))
 	new_options = ""
-	for i in range(len(df)):
-		new_options = new_options + "<option>"+df.iloc[i]['name']+"</option>"
+	# for i in range(len(df)):
+	# 	new_options = new_options + "<option>"+df.iloc[i]['name']+"</option>"
+	for i in range(len(df_nl)):
+		new_options = new_options + "<option>"+df_nl.iloc[i]['Derived Fact']+"</option>"
 	Element("dropdownIDB").element.innerHTML = new_options
 
 def explanation_query(*args, **kws):
@@ -54,7 +63,6 @@ def explanation_query(*args, **kws):
 		
 		load_dotenv()
 		secret_key = os.getenv('API_KEY')
-		# secret_key = os.environ-get('API_KEY')
 		prompt_para= 'Paraphrase this text:' + verb[['Original Verbalization']].to_string(header = False, index = False)
 		bearer = "Bearer " + secret_key
 		engine = "gpt-3.5-turbo-instruct"
@@ -74,7 +82,7 @@ def explanation_query(*args, **kws):
 		xhr.send(data)
 		paraph = json.loads(xhr.response)
 		Element("paraphrased").write(paraph['choices'][0]['text'])
-	
+
 		prompt_summary = 'Summarize this text:' + verb[['Original Verbalization']].to_string(header = False, index = False)
 		xhr = XMLHttpRequest.new()
 		xhr.open("POST", "https://api.openai.com/v1/completions", False)
@@ -102,3 +110,21 @@ def explanation_query(*args, **kws):
 
 	except Exception as e:
 		print(f"An error occurred: {e}")
+
+
+def text_der(*args, **kws):
+	if "ownership" in Element("path").value:
+		df_nl = pd.read_csv("data/ownership/nl.csv")
+	elif "shock" in Element("path").value:
+		df_nl = pd.read_csv("data/shock/nl.csv")
+	elif "closeLink" in Element("path").value:
+		df_nl = pd.read_csv("data/closeLink/nl.csv")
+	elif "trading" in Element("path").value:
+		df_nl = pd.read_csv("data/trading/nl.csv")
+	fact_of_interest = Element("dropdownIDB").value
+	df_nl[df_nl['Derived Fact'] == fact_of_interest]['Original Verbalization']
+	Element("res_det").write(df_nl[df_nl['Derived Fact'] == fact_of_interest][['Original Verbalization']].to_string(header = False, index = False))
+	Element("paraphrased").write(df_nl[df_nl['Derived Fact'] == fact_of_interest][['paraphrasis']].to_string(header = False, index = False))
+	Element("summarized").write(df_nl[df_nl['Derived Fact'] == fact_of_interest][['summa']].to_string(header = False, index = False))
+	Element("frameworked").write(df_nl[df_nl['Derived Fact'] == fact_of_interest][['Paraphrased Verbalization']].to_string(header = False, index = False))
+	Element("result").write(df_nl[df_nl['Derived Fact'] == fact_of_interest][['Paraphrased Verbalization']].to_string(header = False, index = False))

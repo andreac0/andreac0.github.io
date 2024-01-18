@@ -31,7 +31,12 @@
 			"./data/closeLink/templates.json",
 			"./data/shock/chase.json",
 			"./data/shock/deterministic_verbalization.json",
-			"./data/shock/templates.json"]
+			"./data/shock/templates.json",
+			".env",
+			"./data/shock/nl.csv",
+			"./data/ownership/nl.csv",
+			"./data/trading/nl.csv",
+			"./data/closeLink/nl.csv"]
     </py-config>
 	</head>
 	<body>
@@ -84,6 +89,9 @@
 			<button py-click="explanation_query()" id="button" class="py-button">
 				Run Explanation Query $Q_e$
 			</button>
+			<button py-click="text_der()" id="button" class="py-button">
+				Write Text
+			</button>
 			<section class="content">
 				<h4>Result</h4>
 				<div class="divcontainer">
@@ -105,9 +113,14 @@
 					</div>
 				</div>
 				<div class="divcontainer">
-					<div id = "template_cont" style="width:850px;">
+					<div id = "framework" style="width:850px;">
 						<h4>Framework:</h4>	
-						<div id="result" style="font-size: 70%"></div>			
+						<div id="frameworked" style="font-size: 70%"></div>			
+					</div>
+				</div>
+				<div class="divcontainer">
+					<div id = "template_cont" style="width:850px;">
+						<div id="result" style="font-size: 1%"></div>			
 				    </div>
 				</div>
 			</section>
@@ -216,7 +229,7 @@
 </script>
 <script type="text/javascript">
 		var desc = "";
-		var path = "trading"
+		var path = "shock"
 		$("#path").val(path)
 		$("#desc").html(desc);
 		$("#query")("");
