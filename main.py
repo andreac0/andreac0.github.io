@@ -13,40 +13,54 @@ import requests
 from js import localStorage, document, console, XMLHttpRequest
 from dotenv import load_dotenv
 import os
+import re
+import random2 as random
+
+# def round_numbers_in_text(text):
+#     # Define a regular expression pattern to match numbers
+#     pattern = r'\d+(\.\d+)?'  # Matches integers and decimals
+    
+#     # Find all matches in the text
+#     matches = re.findall(pattern, text)
+    
+#     # Round each number found in the text
+#     rounded_text = text
+#     for match in matches:
+#         rounded_number = round(float(match),2)
+#         rounded_text = rounded_text.replace(match, str(rounded_number))
+    
+#     return rounded_text
 
 
 def get_data(*args, **kws):
-	df = pd.read_json("data/"+Element("path").value+"/chase.json")[['name','provenance']]
-	df2 = df[df['provenance'] == "[]"]['name'].reset_index(drop = True).to_string(header = False, index = False)
+	# df = pd.read_json("data/"+Element("path").value+"/chase.json")[['name','provenance']]
+	# df2 = df[df['provenance'] == "[]"]['name'].reset_index(drop = True).to_string(header = False, index = False)
+	# Element('edb_facts').write(df2)
+	pd.set_option("display.max_colwidth", 10000)
+	df = pd.read_json("data/"+Element("path").value+"/deterministic_verbalization.json")[['derived_fact','type','sentence']]
+	df2 = df[df['type'] == 'extensional']['sentence'].reset_index(drop = True).to_string(header = False, index = False).replace('\"','')
+	df2 = re.sub(' +', ' ', df2)
 	Element('edb_facts').write(df2)
 	if "trading" in Element("path").value:
-		# df = df[df['name'].str.startswith('returns(')][['name']]
-		# df_write = df.reset_index(drop = True).to_string(header = False, index = False)
-		# Element('idb_facts').write(df_write)
-		df_nl = pd.read_csv("data/trading/nl.csv")
-		Element('idb_facts').write(df_nl['Derived Fact'].to_string(header = False, index = False))
+		df_nl = df[df['derived_fact'].str.startswith('returns(')][['sentence','derived_fact']]
+		df_write = pd.DataFrame([head.split(', then')[1].replace('\"','').split(',')[0] for head in df_nl['sentence']]).to_string(header = False, index = False)
+		Element('idb_facts').write(re.sub(' +', ' ', df_write))
 	elif "ownership" in Element("path").value:
-		# df = df[df['name'].str.startswith('control(')][['name']]
-		# df_write = df.reset_index(drop = True).to_string(header = False, index = False)
-		# Element('idb_facts').write(df_write)
-		df_nl = pd.read_csv("data/ownership/nl.csv")
-		Element('idb_facts').write(df_nl['Derived Fact'].to_string(header = False, index = False))
+		df_nl = df[df['derived_fact'].str.startswith('control(')][['sentence','derived_fact']]
+		df_write = pd.DataFrame([head.split(', then')[1].replace('\"','') for head in df_nl['sentence']]).to_string(header = False, index = False)
+		Element('idb_facts').write(re.sub(' +', ' ', df_write))
 	elif "closeLink" in Element("path").value:
-		# df = df[df['name'].str.startswith('closelink(')][['name']]
-		# df_write = df.reset_index(drop = True).to_string(header = False, index = False)
-		# Element('idb_facts').write(df_write)
-		df_nl = pd.read_csv("data/closeLink/nl.csv")
-		Element('idb_facts').write(df_nl['Derived Fact'].to_string(header = False, index = False))
+		df_nl = df[df['derived_fact'].str.startswith('closelink(')][['sentence','derived_fact']]
+		df_write = pd.DataFrame([head.split(', then')[1].replace('\"','') for head in df_nl['sentence']]).to_string(header = False, index = False)
+		Element('idb_facts').write(re.sub(' +', ' ', df_write))
 	elif "shock" in Element("path").value:
-		# df = df[df['name'].str.startswith('default(')][['name']]
-		# df_write = df.reset_index(drop = True).to_string(header = False, index = False)
-		df_nl = pd.read_csv("data/shock/nl.csv")
-		Element('idb_facts').write(df_nl['Derived Fact'].to_string(header = False, index = False))
+		df_nl = df[df['derived_fact'].str.startswith('default(')][['sentence','derived_fact']]
+		df_write = pd.DataFrame([head.split(', then')[1].replace('\"','') for head in df_nl['sentence']]).to_string(header = False, index = False)
+		Element('idb_facts').write(re.sub(' +', ' ', df_write))
 	new_options = ""
-	# for i in range(len(df)):
-	# 	new_options = new_options + "<option>"+df.iloc[i]['name']+"</option>"
+
 	for i in range(len(df_nl)):
-		new_options = new_options + "<option>"+df_nl.iloc[i]['Derived Fact']+"</option>"
+		new_options = new_options + "<option>"+df_nl.iloc[i]['derived_fact']+"</option>"
 	Element("dropdownIDB").element.innerHTML = new_options
 
 def explanation_query(*args, **kws):
@@ -114,9 +128,13 @@ def explanation_query(*args, **kws):
 
 def text_der(*args, **kws):
 	if "ownership" in Element("path").value:
+		varG = random.choice([1,2])
 		df_nl = pd.read_csv("data/ownership/nl.csv")
+		df_nl = df_nl[df_nl['type']==varG]
 	elif "shock" in Element("path").value:
+		varG = random.choice([1,2])
 		df_nl = pd.read_csv("data/shock/nl.csv")
+		df_nl = df_nl[df_nl['type']==varG]
 	elif "closeLink" in Element("path").value:
 		df_nl = pd.read_csv("data/closeLink/nl.csv")
 	elif "trading" in Element("path").value:

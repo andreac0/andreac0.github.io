@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
     <script defer src="https://pyscript.net/latest/pyscript.js"></script>
     <py-config>
-       packages =["./static/littleutils-0.2.2-py3-none-any.whl", "pandas","openai==1.3.6","ssl","typing_extensions==4.7.1","requests","python-dotenv"]
+       packages =["./static/littleutils-0.2.2-py3-none-any.whl", "pandas","openai==1.3.6","ssl","typing_extensions==4.7.1","requests","python-dotenv","random2"]
        [[fetch]]
        files=["./pycode/AggregateVerbalizer.py",
 	   		"./pycode/TemplatesGenerator.py",
@@ -45,42 +45,40 @@
 			</header>
 
 				<section class="content">
-				<label for="cars"><b>Choose program:</b></label>
+				<label for="cars"><b>Select Reasoning Task:</b></label>
 
 				<select name="examples" id="examples" py-click="get_data()">
 					<option value ="NA"></option>
-					<option value= "TR">Trading via Smart Contract</option>
-					<option value= "OW">Ownership</option>
-					<option value= "CL">Close Link</option>
-					<option value= "SP">Shock Propagation</option>
-			   </select>
+					<option value= "OW">Company Control Detection</option>
+					<option value= "SP">Stress Test</option>
+					<option value= "TR">Smart Contract Trading Simulation</option>
+					<option value= "CL">Close Link Detection</option>
+			    </select>
 			<br/><br/>
-			   <div id="logicProgram" style="font-size: 70%"></div>
-			<br/><br/>
-				 <div id="desc" align="left"></div>
-			<br/><br/>
-				<div id="query" style="font-size: 80%"></div>
-			
-
-
+			<div id="desc" align="left"></div>
+			<br/>
+			<div id="logicProgram" style="font-size: 70%"></div>
+			<br/>
+			<div id="query" style="font-size: 80%"></div>
+		
       </section>
 
 			<section class="content">
 				<div class="divcontainer">
 						<div class="dataset">
-								<h3>EDB Knowledge:</h3>
-									<div id="edb_facts" style="overflow-y: scroll; height:150px;width:300px;">
-								</div>
+								<h3>Initial Knowledge:</h3>
+									<pre id="edb_facts" style="overflow-y:scroll;overflow-x:scroll;height:250px;width:600px;text-align:left;">
+									</pre>
 						</div>
 
 						<div class="fact" >
-								 <h3>IDB Knowledge:</h3>
-								 <div id="idb_facts" style="overflow-y: scroll; height:150px;width:300px;"></div>
+								 <h3>Inferred Knowledge:</h3>
+								 <pre id="idb_facts" style="overflow-y: scroll;overflow-x:scroll;height:250px;width:400px;text-align:left;"></pre>
 								
 						</div>
-				</div>
+					</div>
 			</section>
-			<label for="cars"><b>Choose fact to explain:</b></label>
+			<label for="cars"><b>Select Fact to Explain:</b></label>
 			<select id="dropdownIDB">
 			</select>
 
@@ -185,21 +183,36 @@
 		var selectedVal = $(this).find(':selected').val();
 		// var selectedText = $(this).find(':selected').text();
     if(selectedVal == "TR"){
-        var desc = "<b>Description</b>: Logic programs can be to define Smart Contracts which run on a blockchain. This program describes a simple version of trading of an asset via a Smart Contract, where a trader can send Open position orders, Close position orders and with market information evolving (Price)";
+        var desc = "<b>Description</b> <br/> \
+		Financial smart contracts are self-executing agreements with the terms of the contract \
+		directly written into code. These contracts, built on blockchain technology, automatically \
+		execute and enforce predefined financial transactions or conditions when specific criteria \
+		are met. They eliminate the need for intermediaries, enhance transparency, and facilitate \
+		secure and efficient financial processes. One of the possible language that can be used to encode \
+		smart contracts is Datalog, as recently demonstrated. The following Datalog program describes a simple version of \
+		trading of an asset via a Smart Contract, where a trader can send Open position orders, Close position \
+		orders and with market information evolving (Price).";
 		var path = "trading"
 		$("#path").val(path)
 		$("#desc").html(desc);
-		$("#query").html("<b>Query of interest:</b>$$?-Returns(x,pl)$$");
+		$("#query").html("<b>Goal of the scenario:</b>$$?-Returns(x,pl)$$");
 		$("#logicProgram").html("$$\\textit{Open}(x,y,t_1), \\neg \\textit{MarketClosed}(t_1) \\to \\textit{Accepted}(x,y,t_1)$$ \n  $$\\textit{Accepted}(x,y,t_1), \\textit{Price}(p_1,t_1), k=y*p_1  \\to \\textit{Position}(x,y,k,t_1)$$ \n $$\\textit{Close}(x,t_2), \\textit{Price}(p_2,t_2), \\textit{Position}(x,y,k,t_1), t_2>t_1, pl=y*p_2-k \\to \\textit{Returns(x,pl)}$$");
 		MathJax.Hub.Queue(["Typeset", MathJax.Hub, "logicProgram"]);
 		MathJax.Hub.Queue(["Typeset", MathJax.Hub, "query"]);
     }
     else if(selectedVal == "OW"){
-        var desc = "<b>Description</b>:Whilst ownership allows to measure mutual influence between companies, company control is concerned with decision power, defining when a company can induce decisions on another company. A company (or a person) x controls a company y, if: (i) x directly owns more than 50% of y; or, (ii) x controls a set of companies that jointly (i.e., summing the shares), and possibly together with x, own more than 50% of y.";
+        var desc = "<b>Description</b> <br/> \
+		Whilst ownership allows to measure mutual influence between \
+		companies, company control is concerned with decision power, defining when a company can \
+		induce decisions on another company. A company (or a person) x controls a company y, \
+		if: (i) x directly owns more than 50% of y; or, (ii) x controls a set of companies that \
+		jointly (i.e., summing the shares), and possibly together with x, own more than 50% of y.\
+		This configures a reasoning task over ownership relationships, which can be easily encoded \
+		into a logic-based programming language such as Datalog, as follows:";
 		var path = "ownership"
 		$("#path").val(path)
 		$("#desc").html(desc);
-		$("#query").html("<b>Query of interest:</b>$$?-Control(x,y)$$");
+		$("#query").html("<b>Goal of the scenario:</b>$$?-Control(x,y)$$");
 		$("#logicProgram").html("$$\\textit{Company}(x) \\to \\textit{Control}(x,x)$$ \n $$\\textit{Control}(x,y),\\textit{Own}(y,z),s=\\textit{msum}(z,y),s>50 \\to \\textit{Control}(x,z)$$");
 		MathJax.Hub.Queue(["Typeset", MathJax.Hub, "logicProgram"]);
 		MathJax.Hub.Queue(["Typeset", MathJax.Hub, "query"]);
@@ -209,17 +222,23 @@
 		var path = "closeLink"
 		$("#path").val(path)
 		$("#desc").html(desc);
-		$("#query").html("<b>Query of interest:</b>$$?-closeLink(x,y)$$");
+		$("#query").html("<b>Goal of the scenario:</b>$$?-closeLink(x,y)$$");
 		$("#logicProgram").html("$$\\textit{Own}(c_1,c_2,s)\\to MC(c_1,c_2,s)$$\n $$MC(c_1,c_2,s_1),\\textit{Own}(c_2,c_3,s_2) \\to MC(c_1,c_3,s_1*s_2)$$ \n $$MC(c_4,c_5,s),ts=msum(s),ts>0.2 \\to \\textit{CloseLink}(c_4,c_5)$$");
 		MathJax.Hub.Queue(["Typeset", MathJax.Hub, "logicProgram"]);
 		MathJax.Hub.Queue(["Typeset", MathJax.Hub, "query"]);
     }
     else if(selectedVal == "SP"){
-        var desc = "<b>Description</b>: Given a KG of loans between financial institutions,  we can simulate how shocks and the resulting cascade defaults affect a network of entities. Determining how this contagion occurs is a critical task for financial authorities, which, depending on the simulations, can swiftly adopt measures to prevent or at least mitigate the cascade effect.";
+        var desc = "<b>Description</b> <br/> \
+		The interlink of loans between financial institution can be represented into a Knowledge Graph, \
+		where edges are loans connecting the entities, which are nodes. A stress test, or shock propagation model, \
+		simulates a shock which affect an initial entity and that propagate into the network, causing a cascade \
+		of default. Determining how this contagion occurs is a critical task for \
+		financial authorities, which, depending on the simulations, can swiftly adopt measures to prevent or at least mitigate \
+		the cascade effect. Such problem can be represented in Datalog by the following reasoning rules:";
 		var path = "shock"
 		$("#path").val(path)
 		$("#desc").html(desc);
-		$("#query").html("<b>Query of interest:</b>$$?-Default(x)$$");
+		$("#query").html("<b>Goal of the scenario:</b>$$?-Default(x)$$");
 		$("#logicProgram").html("$$\\textit{Shock}(f,s),\\textit{FinInt}(f,p), s>p \\to \\textit{Default}(f)$$ \n $$\\textit{Default}(d),\\textit{LongTerm}(d,c,v), e_l=msum(v) \\to \\textit{Risk}(c,e_l,\\textit{long})$$ \n $$\\textit{Default}(d),\\textit{ShortTerm}(d,c,v), e_s=msum(v) \\to \\textit{Risk}(c,e_s,\\textit{short})$$ \n  $$\\textit{Risk}(c,e,t),\\textit{FinInt}(c,p), \\textit{l}=msum(e),\\textit{l}>p \\to \\textit{Default}(c)$$");
 		MathJax.Hub.Queue(["Typeset", MathJax.Hub, "logicProgram"]);
 		MathJax.Hub.Queue(["Typeset", MathJax.Hub, "query"]);
