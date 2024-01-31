@@ -128,7 +128,7 @@ def explanation_query(*args, **kws):
 
 def text_der(*args, **kws):
 	if "ownership" in Element("path").value:
-		varG = random.choice([1,2])
+		varG = random.choice([1,2,3])
 		df_nl = pd.read_csv("data/ownership/nl.csv")
 		df_nl = df_nl[df_nl['type']==varG]
 	elif "shock" in Element("path").value:
@@ -138,7 +138,9 @@ def text_der(*args, **kws):
 	elif "closeLink" in Element("path").value:
 		df_nl = pd.read_csv("data/closeLink/nl.csv")
 	elif "trading" in Element("path").value:
+		varG = random.choice([1,2,3,4])
 		df_nl = pd.read_csv("data/trading/nl.csv")
+		df_nl = df_nl[df_nl['type']==varG]
 	fact_of_interest = Element("dropdownIDB").value
 	df_nl[df_nl['Derived Fact'] == fact_of_interest]['Original Verbalization']
 	Element("res_det").write(df_nl[df_nl['Derived Fact'] == fact_of_interest][['Original Verbalization']].to_string(header = False, index = False))
