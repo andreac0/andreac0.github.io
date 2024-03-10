@@ -213,7 +213,7 @@
 		$("#path").val(path)
 		$("#desc").html(desc);
 		$("#query").html("<b>Goal of the scenario:</b>$$?-Control(x,y)$$");
-		$("#logicProgram").html("$$\\textit{Company}(x) \\to \\textit{Control}(x,x)$$ \n $$\\textit{Control}(x,y),\\textit{Own}(y,z),s=\\textit{msum}(z,y),s>50 \\to \\textit{Control}(x,z)$$");
+		$("#logicProgram").html("$$\\textit{Company}(x) \\to \\textit{Control}(x,x)$$ \n $$ \\textit{Own}(x,y,z),s>50 \\to \\textit{Control}(x,z)$$ \n $$\\textit{Control}(x,y),\\textit{Own}(y,z,w),s=\\textit{msum}(w),s>50 \\to \\textit{Control}(x,z)$$");
 		MathJax.Hub.Queue(["Typeset", MathJax.Hub, "logicProgram"]);
 		MathJax.Hub.Queue(["Typeset", MathJax.Hub, "query"]);
     }
@@ -223,7 +223,7 @@
 		$("#path").val(path)
 		$("#desc").html(desc);
 		$("#query").html("<b>Goal of the scenario:</b>$$?-closeLink(x,y)$$");
-		$("#logicProgram").html("$$\\textit{Own}(c_1,c_2,s)\\to MC(c_1,c_2,s)$$\n $$MC(c_1,c_2,s_1),\\textit{Own}(c_2,c_3,s_2) \\to MC(c_1,c_3,s_1*s_2)$$ \n $$MC(c_4,c_5,s),ts=msum(s),ts>0.2 \\to \\textit{CloseLink}(c_4,c_5)$$");
+		$("#logicProgram").html("$$\\textit{IntOwns}(c_1,c_2,s), s > 0.20\\to \\textit{CloseLink}(c_1,c_2)$$\n $$\\textit{CloseLink}(c_1,c_2) \\to \\textit{CloseLink}(c_2,c_1)$$ \n $$\\textit{IntOwns}(c_1,c_2,s_1),\\textit{IntOwns}(c_1,c_3,s_2) \\to \\textit{CloseLink}(c_2,c_3)$$");
 		MathJax.Hub.Queue(["Typeset", MathJax.Hub, "logicProgram"]);
 		MathJax.Hub.Queue(["Typeset", MathJax.Hub, "query"]);
     }
@@ -239,7 +239,7 @@
 		$("#path").val(path)
 		$("#desc").html(desc);
 		$("#query").html("<b>Goal of the scenario:</b>$$?-Default(x)$$");
-		$("#logicProgram").html("$$\\textit{Shock}(f,s),\\textit{FinInt}(f,p), s>p \\to \\textit{Default}(f)$$ \n $$\\textit{Default}(d),\\textit{LongTerm}(d,c,v), e_l=msum(v) \\to \\textit{Risk}(c,e_l,\\textit{long})$$ \n $$\\textit{Default}(d),\\textit{ShortTerm}(d,c,v), e_s=msum(v) \\to \\textit{Risk}(c,e_s,\\textit{short})$$ \n  $$\\textit{Risk}(c,e,t),\\textit{FinInt}(c,p), \\textit{l}=msum(e),\\textit{l}>p \\to \\textit{Default}(c)$$");
+		$("#logicProgram").html("$$\\textit{Shock}(f,s),\\textit{FinInt}(f,p), s>p \\to \\textit{Default}(f)$$ \n $$\\textit{Default}(d),\\textit{LongTermDebts}(d,c,v), e_l=msum(v) \\to \\textit{Risk}(c,e_l,\\textit{long})$$ \n $$\\textit{Default}(d),\\textit{ShortTermDebts}(d,c,v), e_s=msum(v) \\to \\textit{Risk}(c,e_s,\\textit{short})$$ \n  $$\\textit{Risk}(c,e,t),\\textit{FinInt}(c,p), \\textit{l}=msum(e),\\textit{l}>p \\to \\textit{Default}(c)$$");
 		MathJax.Hub.Queue(["Typeset", MathJax.Hub, "logicProgram"]);
 		MathJax.Hub.Queue(["Typeset", MathJax.Hub, "query"]);
     }
