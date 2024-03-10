@@ -41,7 +41,7 @@
 	<body>
 		<div class="container">
 			<header class="codrops-header">
-				<h2>Natural Language Explanations of Logical Inference</h2>
+				<h2>Template-based Explainable Inference over Financial KGs</h2>
 			</header>
 
 				<section class="content">
@@ -195,7 +195,7 @@
 		var path = "trading"
 		$("#path").val(path)
 		$("#desc").html(desc);
-		$("#query").html("<b>Goal of the scenario:</b>$$?-Returns(x,pl)$$");
+		$("#query").html("<b>Goal of the KG Application:</b>$$?-Returns(x,pl)$$");
 		$("#logicProgram").html("$$\\textit{Open}(x,y,t_1), \\neg \\textit{MarketClosed}(t_1) \\to \\textit{Accepted}(x,y,t_1)$$ \n  $$\\textit{Accepted}(x,y,t_1), \\textit{Price}(p_1,t_1), k=y*p_1  \\to \\textit{Position}(x,y,k,t_1)$$ \n $$\\textit{Close}(x,t_2), \\textit{Price}(p_2,t_2), \\textit{Position}(x,y,k,t_1), t_2>t_1, pl=y*p_2-k \\to \\textit{Returns(x,pl)}$$");
 		MathJax.Hub.Queue(["Typeset", MathJax.Hub, "logicProgram"]);
 		MathJax.Hub.Queue(["Typeset", MathJax.Hub, "query"]);
@@ -212,7 +212,7 @@
 		var path = "ownership"
 		$("#path").val(path)
 		$("#desc").html(desc);
-		$("#query").html("<b>Goal of the scenario:</b>$$?-Control(x,y)$$");
+		$("#query").html("<b>Goal of the KG Application:</b>$$?-Control(x,y)$$");
 		$("#logicProgram").html("$$\\textit{Company}(x) \\to \\textit{Control}(x,x)$$ \n $$ \\textit{Own}(x,y,z),s>50 \\to \\textit{Control}(x,z)$$ \n $$\\textit{Control}(x,y),\\textit{Own}(y,z,w),s=\\textit{msum}(w),s>50 \\to \\textit{Control}(x,z)$$");
 		MathJax.Hub.Queue(["Typeset", MathJax.Hub, "logicProgram"]);
 		MathJax.Hub.Queue(["Typeset", MathJax.Hub, "query"]);
@@ -222,7 +222,7 @@
 		var path = "closeLink"
 		$("#path").val(path)
 		$("#desc").html(desc);
-		$("#query").html("<b>Goal of the scenario:</b>$$?-closeLink(x,y)$$");
+		$("#query").html("<b>Goal of the KG Application:</b>$$?-closeLink(x,y)$$");
 		$("#logicProgram").html("$$\\textit{IntOwns}(c_1,c_2,s), s > 0.20\\to \\textit{CloseLink}(c_1,c_2)$$\n $$\\textit{CloseLink}(c_1,c_2) \\to \\textit{CloseLink}(c_2,c_1)$$ \n $$\\textit{IntOwns}(c_1,c_2,s_1),\\textit{IntOwns}(c_1,c_3,s_2) \\to \\textit{CloseLink}(c_2,c_3)$$");
 		MathJax.Hub.Queue(["Typeset", MathJax.Hub, "logicProgram"]);
 		MathJax.Hub.Queue(["Typeset", MathJax.Hub, "query"]);
@@ -238,7 +238,7 @@
 		var path = "shock"
 		$("#path").val(path)
 		$("#desc").html(desc);
-		$("#query").html("<b>Goal of the scenario:</b>$$?-Default(x)$$");
+		$("#query").html("<b>Goal of the KG Application:</b>$$?-Default(x)$$");
 		$("#logicProgram").html("$$\\textit{Shock}(f,s),\\textit{FinInt}(f,p), s>p \\to \\textit{Default}(f)$$ \n $$\\textit{Default}(d),\\textit{LongTermDebts}(d,c,v), e_l=msum(v) \\to \\textit{Risk}(c,e_l,\\textit{long})$$ \n $$\\textit{Default}(d),\\textit{ShortTermDebts}(d,c,v), e_s=msum(v) \\to \\textit{Risk}(c,e_s,\\textit{short})$$ \n  $$\\textit{Risk}(c,e,t),\\textit{FinInt}(c,p), \\textit{l}=msum(e),\\textit{l}>p \\to \\textit{Default}(c)$$");
 		MathJax.Hub.Queue(["Typeset", MathJax.Hub, "logicProgram"]);
 		MathJax.Hub.Queue(["Typeset", MathJax.Hub, "query"]);
