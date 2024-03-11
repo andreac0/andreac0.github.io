@@ -50,7 +50,7 @@ def get_data(*args, **kws):
 		df_write = pd.DataFrame([head.split(', then')[1].replace('\"','') for head in df_nl['sentence']]).to_string(header = False, index = False)
 		Element('idb_facts').write(re.sub(' +', ' ', df_write))
 	elif "closeLink" in Element("path").value:
-		df_nl = df[df['derived_fact'].str.startswith('closelink(')][['sentence','derived_fact']]
+		df_nl = df[df['derived_fact'].str.startswith('closeLink(')][['sentence','derived_fact']]
 		df_write = pd.DataFrame([head.split(', then')[1].replace('\"','') for head in df_nl['sentence']]).to_string(header = False, index = False)
 		Element('idb_facts').write(re.sub(' +', ' ', df_write))
 	elif "shock" in Element("path").value:

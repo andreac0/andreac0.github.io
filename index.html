@@ -223,7 +223,7 @@
 		$("#path").val(path)
 		$("#desc").html(desc);
 		$("#query").html("<b>Goal of the KG Application:</b>$$?-closeLink(x,y)$$");
-		$("#logicProgram").html("$$\\textit{IntOwns}(c_1,c_2,s), s > 0.20\\to \\textit{CloseLink}(c_1,c_2)$$\n $$\\textit{CloseLink}(c_1,c_2) \\to \\textit{CloseLink}(c_2,c_1)$$ \n $$\\textit{IntOwns}(c_1,c_2,s_1),\\textit{IntOwns}(c_1,c_3,s_2) \\to \\textit{CloseLink}(c_2,c_3)$$");
+		$("#logicProgram").html("$$\\textit{IntOwns}(c_1,c_2,s), s > 0.20\\to \\textit{CloseLink}(c_1,c_2)$$\n $$\\textit{CloseLink}(c_1,c_2) \\to \\textit{CloseLink}(c_2,c_1)$$ \n $$\\textit{IntOwns}(c_1,c_2,s_1),\\textit{IntOwns}(c_1,c_3,s_2), s_1 > 0.2, s_2 > 0.2, c_1 \\neq c_2, c_1 \\neq c_3, c_2 \\neq c_3 \\to \\textit{CloseLink}(c_2,c_3)$$");
 		MathJax.Hub.Queue(["Typeset", MathJax.Hub, "logicProgram"]);
 		MathJax.Hub.Queue(["Typeset", MathJax.Hub, "query"]);
     }
